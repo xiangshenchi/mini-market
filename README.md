@@ -6,8 +6,9 @@ npm install
 ```
 
 ## 安装组件
+```
 npm i element-ui -S
-
+```
 ### Compiles and hot-reloads for development
 ```
 npm run serve

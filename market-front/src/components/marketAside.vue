@@ -1,5 +1,6 @@
 <template>
-  <el-menu :default-openeds="['1', '3']">
+  <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" default-active="1"
+    :default-openeds="['1', '3']">
     <el-submenu index="1">
       <template slot="title"><i class="el-icon-message"></i>导航一</template>
       <el-menu-item-group>
