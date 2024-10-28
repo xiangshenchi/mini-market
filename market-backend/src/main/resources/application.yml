@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mini-market
+    url: jdbc:mysql://localhost:3306/mini_market
     username: root
     password: 123
 
