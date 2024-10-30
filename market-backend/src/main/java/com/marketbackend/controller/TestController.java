@@ -1,6 +1,6 @@
 package com.marketbackend.controller;
 
-import com.marketbackend.pojo.Users;
+import com.marketbackend.pojo.User;
 import com.marketbackend.service.UsersService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ class TestController {
     }
     //返回所有数据
     @GetMapping("/list")
-    public List<Users> list() {
+    public List<User> list() {
         return usersService.list();
     }
 }

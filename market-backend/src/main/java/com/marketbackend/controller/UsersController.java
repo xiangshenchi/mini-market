@@ -1,15 +1,13 @@
 package com.marketbackend.controller;
 
 import com.marketbackend.pojo.Result;
-import com.marketbackend.pojo.Users;
+import com.marketbackend.pojo.User;
 import com.marketbackend.service.UsersService;
 import com.marketbackend.util.JwtUtil;
 import com.marketbackend.util.Md5Util;
 import com.marketbackend.util.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +33,7 @@ class UsersController {
     public Result register(@Pattern(regexp = "^\\S{5,16}$") String username,
                            @Pattern(regexp = "^\\S{5,16}$") String password) {
         //查询用户
-        Users u = userService.findByUserName(username);
+        User u = userService.findByUserName(username);
         if (u == null) {
             //没用占用
             //注册
@@ -52,7 +50,7 @@ class UsersController {
     public Result<String> login(@Pattern(regexp = "^\\S{5,16}$") String username,
                                 @Pattern(regexp = "^\\S{5,16}$") String password) {
         //根据用户名查询用户
-        Users loginUser = userService.findByUserName(username);
+        User loginUser = userService.findByUserName(username);
         //判断用户是否存在
         if (loginUser == null) return Result.error("用户名错误");
         //判断密码是否正确，loginUser的password是密文
@@ -76,7 +74,7 @@ class UsersController {
      *
      * */
     @GetMapping("/userInfo")
-    public Result<Users> userInfo(/*@RequestHeader(name="Authorization")String token*/) {
+    public Result<User> userInfo(/*@RequestHeader(name="Authorization")String token*/) {
        /* //根据用户名查询用户信息
         Map<String, Object> map = JwtUtil.parseToken(token);
        String username = (String) map.get("username");*/
@@ -84,7 +82,7 @@ class UsersController {
         //获取map的键为username的登录用户的姓名
         Map<String, Object> map = ThreadLocalUtil.get();
         String username = (String) map.get("username");
-        Users byUserName = userService.findByUserName(username);
+        User byUserName = userService.findByUserName(username);
         return Result.success(byUserName);
 
     }

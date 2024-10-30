@@ -1,24 +1,25 @@
 package com.marketbackend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.marketbackend.pojo.Users;
+import com.marketbackend.pojo.User;
 import com.marketbackend.service.UsersService;
 import com.marketbackend.mapper.UsersMapper;
 import com.marketbackend.util.Md5Util;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
  * @description 针对表【users】的数据库操作Service实现
  */
 @Service
-public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
+public class UsersServiceImpl extends ServiceImpl<UsersMapper, User>
     implements UsersService{
-     @Autowired
+     @Resource
     private UsersMapper usersMapper;
 
     @Override
-    public Users findByUserName(String username) {
-        return UsersMapper.findByUserName(username);
+    public User findByUserName(String username) {
+        return usersMapper.findByUserName(username);
     }
 
     @Override
@@ -26,6 +27,6 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
         // 加密
         String md5String = Md5Util.getMD5String(password);
         // 添加
-        UsersMapper.add(username, md5String);
+        usersMapper.add(username, md5String);
     }
 }
