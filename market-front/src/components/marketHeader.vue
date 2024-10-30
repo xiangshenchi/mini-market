@@ -1,7 +1,7 @@
 <template>
     <div style="display:flex;line-height:60px;">
-        <div style="margin-top:8px;">
-            <i class="el-icon-s-fold" style="font-size:20px;"></i>
+        <div style="margin-top:8px;cursor: pointer">
+            <i :class="icon" style="font-size:20px;" @click="collapse"></i>
         </div>
         <div style="flex:1;text-align:center;font-size:34px;">
       <h1>欢迎来到小小超市管理系统</h1>
@@ -24,12 +24,17 @@
 export default {
     name: 'marketHeader',
     methods:{
+     collapse() {
+      this.$emit('doCollapse');
+    },
     toUser(){
     console.log("touser")},
      logout(){
     console.log("logout")}
-}
-
+},
+      props: {
+      icon:String
+    }
 }
 </script>
 
