@@ -10,8 +10,6 @@
 </template>
 
 <script>
-
-
 export default {
     name: 'marketMain',
     data() {
