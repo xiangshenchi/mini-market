@@ -1,0 +1,32 @@
+server:
+  port: 8090
+spring:
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: UTF-8
+    #发件人
+    username: abc@qq.com
+    #授权码
+    password: hmps234234
+    port: 465
+    properties:
+      mail:
+        debug: true
+        smtp:
+          ssl:
+            enable: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yunshu
+    username: root
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+#设置日志级别会给root根节点设置，代表整体应用的级别
+logging:
+  level:
+    root: info
