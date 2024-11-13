@@ -4,7 +4,7 @@
       <template slot="title">
         <span>刷新页面</span>
       </template>
-      <a-button @click="clickReload" class="reload-btn" icon="reload" type="link">Reload</a-button>
+      <a-button @click="clickReload" class="reload-btn" icon="reload" type="link">刷新</a-button>
     </a-tooltip>
 
     <a-tooltip placement="bottom" class="question-btn">

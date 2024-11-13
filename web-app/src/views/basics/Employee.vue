@@ -43,7 +43,7 @@
     </a-table>
 
     <a-modal
-        title="Title"
+        title="新增员工"
         :visible="visible"
         @ok="submitForm"
         @cancel="visible = false"

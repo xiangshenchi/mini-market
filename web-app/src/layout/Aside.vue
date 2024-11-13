@@ -3,7 +3,7 @@
       :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
       width="220">
     <div class="logo">
-      运输管理系统
+     智慧超市管理系统
     </div>
     <a-menu theme="dark" mode="inline">
       <a-sub-menu v-for="(item, index) in menus" :key="index">

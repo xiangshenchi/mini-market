@@ -2,7 +2,7 @@
   <div>
     <a-input-search
         placeholder="请输入公司名"
-        enter-button="搜索来往公司"
+        enter-button="搜索"
         style="width: 400px;margin-bottom: 20px"
         size="large"
         @search="onSearch"

@@ -20,9 +20,9 @@
       <a slot="name" slot-scope="text">{{ text }}</a>
       <span slot="customTitle"><a-icon type="smile-o"/> 商品名称</span>
       <span slot="action" slot-scope="text, record, index">
-        <a-button @click="handleUpdate(record)" type="link"><a-icon type="edit"/> Update</a-button>
+        <a-button @click="handleUpdate(record)" type="link"><a-icon type="edit"/> 更新</a-button>
       <a-divider type="vertical"/>
-         <a-button @click="handleDelete(record,index)" type="link"><a-icon type="delete"/> Delete</a-button>
+         <a-button @click="handleDelete(record,index)" type="link"><a-icon type="delete"/> 删除</a-button>
       </span>
     </a-table>
 
@@ -44,10 +44,10 @@
       </a-form-model>
       <template slot="footer">
         <a-button key="back" @click="commodityVisible = false">
-          Return
+          返回
         </a-button>
         <a-button key="submit" type="primary" :loading="modalLoading" @click="submitCommodity">
-          Submit
+          提交
         </a-button>
       </template>
     </a-modal>
@@ -69,10 +69,10 @@ const columns = [
   {
     title: '库存数量',
     dataIndex: 'count',
-    key: 'age'
-    // defaultSortOrder: 'descend', // 默认上到下为由大到小的顺序
-    // sorter: (a, b) => { return a.count> b.count? 1 : -1 },
-    // sortField: 'count'
+    key: 'age',
+    defaultSortOrder: 'descend', // 默认上到下为由大到小的顺序
+    sorter: (a, b) => { return a.count> b.count? 1 : -1 },
+     sortField: 'count'
   },
   {
     title: '描述信息',
