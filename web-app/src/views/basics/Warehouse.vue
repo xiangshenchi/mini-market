@@ -4,7 +4,7 @@
       <a-row :gutter="20">
         <a-col :span="8" class="item">
           <a-card hoverable class="add-item" @click="visible = true">
-            <a-icon type="plus"/>
+            <a-icon type="plus" />
             添加仓库
           </a-card>
         </a-col>
@@ -14,29 +14,19 @@
               <span>负责人: {{ item.principle }}</span>
               <span>
                 <router-link :to="'/warehouse/' + item.id">
-                  <a-icon type="bar-chart"/> 库存管理
+                  <a-icon type="bar-chart" /> 库存管理
                 </router-link>
               </span>
             </template>
-            <a-card-meta
-                :title="item.name"
-                :description="'ID: ' + item.id">
-              <img class="image" slot="avatar" :src="imgList[Math.floor(Math.random() * 3)]"
-                   alt=""/>
+            <a-card-meta :title="item.name" :description="'ID: ' + item.id">
+              <img class="image" slot="avatar" :src="imgList[Math.floor(Math.random() * 3)]" alt="" />
             </a-card-meta>
           </a-card>
         </a-col>
       </a-row>
     </a-spin>
 
-    <a-modal
-        title="新增仓库"
-        :visible="visible"
-        @ok="submit"
-        @cancel="visible = false"
-       ok-text="提交"
-       cancel-text="取消"  
-    >
+    <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="提交" cancel-text="取消">
       <a-input v-model="form.name" addon-before="仓库名称" style="width: 300px;margin-bottom: 20px"></a-input>
       <a-input v-model="form.principle" addon-before="仓库负责人" style="width: 300px"></a-input>
     </a-modal>
@@ -44,14 +34,14 @@
 </template>
 
 <script>
-import {FindAllWarehouse, SaveWarehouse} from "@/api/warehouse";
+import { FindAllWarehouse, SaveWarehouse } from "@/api/warehouse";
 
 export default {
   name: "WareHouse",
   data() {
     return {
       visible: false,
-      form: {id: '', principle: '', name: ''},
+      form: { id: '', principle: '', name: '' },
       spinning: false,
       data: [],
       imgList: [

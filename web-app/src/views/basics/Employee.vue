@@ -1,21 +1,15 @@
 <template>
   <div>
     <a-button size="large" class="editable-add-btn" @click="visible = true">
-      <a-icon type="plus"/>
+      <a-icon type="plus" />
       新增员工
     </a-button>
     <a-table :loading="loading" :columns="columns" :data-source="data" bordered rowKey="id">
-      <template
-          v-for="col in ['name', 'gender', 'phone','idCard','department', 'address']"
-          :slot="col"
-          slot-scope="text, record, index">
+      <template v-for="col in ['name', 'gender', 'phone', 'idCard', 'department', 'address']" :slot="col"
+        slot-scope="text, record, index">
         <div :key="col">
-          <a-input
-              v-if="record.editable"
-              style="margin: -5px 0"
-              :value="text"
-              @change="e => handleChange(e.target.value, record.id, col)"
-          />
+          <a-input v-if="record.editable" style="margin: -5px 0" :value="text"
+            @change="e => handleChange(e.target.value, record.id, col)" />
           <template v-else>
             {{ text }}
           </template>
@@ -23,18 +17,18 @@
       </template>
       <template slot="operation" slot-scope="text, record, index">
         <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.id, index)">保存</a>
-          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.id)">
-            <a>取消</a>
-          </a-popconfirm>
-        </span>
+          <span v-if="record.editable">
+            <a @click="() => save(record.id, index)">保存</a>
+            <a-popconfirm title="你确认取消吗" ok-text="确定" cancel-text="我再想想" @confirm="() => cancel(record.id)">
+              <a>取消</a>
+            </a-popconfirm>
+          </span>
           <span v-else>
-          <a :disabled="editingKey !== ''" @click="() => edit(record.id)">编辑</a>
-        </span>
-          <a-popconfirm placement="top" ok-text="Yes" cancel-text="No" @confirm="confirm(record.id)">
+            <a :disabled="editingKey !== ''" @click="() => edit(record.id)">编辑</a>
+          </span>
+          <a-popconfirm placement="top" ok-text="确定" cancel-text="我再想想" @confirm="confirm(record.id)">
             <template slot="title">
-              <p> 删除驾驶员信息后将无法恢复，确定要删除吗？ </p>
+              <p> 删除员工信息后将无法恢复，确定要删除吗？</p>
             </template>
             <a-button type="link">删除</a-button>
           </a-popconfirm>
@@ -42,29 +36,30 @@
       </template>
     </a-table>
 
-    <a-modal
-        title="新增员工"
-        :visible="visible"
-        @ok="submitForm"
-        @cancel="visible = false"
-        ok-text="提交"
-        cancel-text="取消" 
-    >
+    <a-modal title="新增员工" :visible="visible" @ok="submitForm" @cancel="visible = false" ok-text="提交" cancel-text="取消">
       <a-form-model :model="form">
         <a-form-model-item label="姓名">
-          <a-input v-model="form.name" placeholder="请输入司机姓名"/>
+          <a-input v-model="form.name" placeholder="请输入司机姓名" />
         </a-form-model-item>
         <a-form-model-item label="身份证号">
-          <a-input v-model="form.idCard" placeholder="请输入司机身份证信息"/>
+          <a-input v-model="form.idCard" placeholder="请输入司机身份证信息" />
         </a-form-model-item>
         <a-form-model-item label="联系方式">
-          <a-input v-model="form.phone" placeholder="请输入手机号码"/>
+          <a-input v-model="form.phone" placeholder="请输入手机号码" />
         </a-form-model-item>
-        <a-form-model-item label="所在仓库">
+        <!-- <a-form-model-item label="所在仓库">
           <a-select v-model="form.department" v-for="(item,index) in warehouseList" placeholder="请选择员工所在仓库">
             <a-select-option :value="item.name">{{ item.name }}</a-select-option>
           </a-select>
+        </a-form-model-item> -->
+        <a-form-model-item label="所在仓库">
+          <a-select v-model="form.department" placeholder="请选择员工所在仓库">
+            <a-select-option v-for="(item, index) in warehouseList" :key="index" :value="item.name">
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
         </a-form-model-item>
+
         <a-form-model-item label="性别">
           <a-radio-group v-model="form.gender">
             <a-radio value="男性">男性</a-radio>
@@ -72,7 +67,7 @@
           </a-radio-group>
         </a-form-model-item>
         <a-form-model-item label="家庭住址">
-          <a-input v-model="form.address" type="textarea"/>
+          <a-input v-model="form.address" type="textarea" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
@@ -80,44 +75,44 @@
 </template>
 
 <script>
-import {DeleteEmployeeById, FindAllEmployee, SaveEmployee} from "@/api/employee";
-import {FindAllWarehouse} from "../../api/warehouse";
+import { DeleteEmployeeById, FindAllEmployee, SaveEmployee } from "@/api/employee";
+import { FindAllWarehouse } from "../../api/warehouse";
 
 const columns = [
   {
     title: '名字',
     dataIndex: 'name',
-    scopedSlots: {customRender: 'name'},
+    scopedSlots: { customRender: 'name' },
   },
   {
     title: '性别',
     dataIndex: 'gender',
-    scopedSlots: {customRender: 'gender'},
+    scopedSlots: { customRender: 'gender' },
   },
   {
     title: '所在部门',
     dataIndex: 'department',
-    scopedSlots: {customRender: 'department'},
+    scopedSlots: { customRender: 'department' },
   },
   {
     title: '联系电话',
     dataIndex: 'phone',
-    scopedSlots: {customRender: 'phone'},
+    scopedSlots: { customRender: 'phone' },
   },
   {
     title: '身份证',
     dataIndex: 'idCard',
-    scopedSlots: {customRender: 'idCard'},
+    scopedSlots: { customRender: 'idCard' },
   },
   {
     title: '家庭住址',
     dataIndex: 'address',
-    scopedSlots: {customRender: 'address'},
+    scopedSlots: { customRender: 'address' },
   },
   {
     title: '操作',
     dataIndex: 'operation',
-    scopedSlots: {customRender: 'operation'},
+    scopedSlots: { customRender: 'operation' },
   },
 ];
 
@@ -158,7 +153,7 @@ export default {
       FindAllEmployee().then((res) => {
         if (res.status) {
           this.data = res.data
-          this.cacheData = res.data.map(item => ({...item}))
+          this.cacheData = res.data.map(item => ({ ...item }))
         }
         setTimeout(() => {
           this.loading = false
@@ -228,7 +223,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .editable-add-btn {
   margin-bottom: 15px;
 }
