@@ -47,6 +47,8 @@
         :visible="visible"
         @ok="submitForm"
         @cancel="visible = false"
+        ok-text="提交"
+        cancel-text="取消" 
     >
       <a-form-model :model="form">
         <a-form-model-item label="姓名">

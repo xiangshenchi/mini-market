@@ -34,6 +34,8 @@
         :visible="visible"
         @ok="submit"
         @cancel="visible = false"
+       ok-text="提交"
+       cancel-text="取消"  
     >
       <a-input v-model="form.name" addon-before="仓库名称" style="width: 300px;margin-bottom: 20px"></a-input>
       <a-input v-model="form.principle" addon-before="仓库负责人" style="width: 300px"></a-input>
