@@ -26,20 +26,12 @@
       </a-row>
     </a-spin>
 
-    <!-- <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="提交" cancel-text="取消">
+    <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="提交" cancel-text="取消">
       <a-input v-model="form.name" addon-before="仓库名称" style="width: 300px;margin-bottom: 20px"></a-input>
       <a-input v-model="form.principle" addon-before="仓库负责人" style="width: 300px"></a-input>
-    </a-modal> -->
-    <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="提交" cancel-text="取消">
-  <a-form :form="form" :rules="rules" @submit.prevent="submit">
-    <a-form-item :validate-status="errors.name ? 'error' : ''" :help="errors.name">
-      <a-input v-model="form.name" placeholder="请输入仓库名称" addon-before="仓库名称" style="width: 300px; margin-bottom: 20px" />
-    </a-form-item>
-    <a-form-item :validate-status="errors.principle ? 'error' : ''" :help="errors.principle">
-      <a-input v-model="form.principle" placeholder="请输入仓库负责人" addon-before="仓库负责人" style="width: 300px" />
-    </a-form-item>
-  </a-form>
-</a-modal>
+    </a-modal>
+
+
 
   </div>
 </template>
@@ -53,10 +45,7 @@ export default {
     return {
       visible: false,
       form: { id: '', principle: '', name: '' },
-      errors: {
-        name: null,
-        principle: null,
-      },
+   
       spinning: false,
       data: [],
       imgList: [
@@ -71,11 +60,7 @@ export default {
   },
 
   methods: {
-    validateForm() {
-      this.errors.name = !this.form.name ? '仓库名称不能为空' : null;
-      this.errors.principle = !this.form.principle ? '仓库负责人不能为空' : null;
-      return !this.errors.name && !this.errors.principle;
-    },
+
     loadData() {
       this.spinning = true
       FindAllWarehouse().then((res) => {
@@ -87,15 +72,12 @@ export default {
     },
 
     submit() {
-      if (this.validateForm()) {
       SaveWarehouse(this.form).then((res) => {
         if (res.status) this.$message.success("添加成功")
         this.visible = false
         this.loadData()
       })
-      }
     }
-
   },
 
 }
