@@ -26,17 +26,15 @@
       </a-row>
     </a-spin>
 
-    <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="cancel" ok-text="提交" cancel-text="取消">
-      <a-form :model="form" :rules="rules" ref="formRef" label-col="{ span: 6 }" wrapper-col="{ span: 14 }">
-        <a-form-item label="仓库名称" name="name">
-          <a-input v-model="form.name" />
-        </a-form-item>
-        <a-form-item label="仓库负责人" name="principle">
-          <a-input v-model="form.principle" />
-        </a-form-item>
-      </a-form>
+    <!-- <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="提交" cancel-text="取消">
+      <a-input v-model="form.name" addon-before="仓库名称" style="width: 300px;margin-bottom: 20px"></a-input>
+      <a-input v-model="form.principle" addon-before="仓库负责人" style="width: 300px"></a-input>
+    </a-modal> -->
+    <a-modal title="新增仓库" :visible="visible" @ok="submit" @cancel="close" ok-text="提交" cancel-text="取消">
+      <a-input v-model="form.name" addon-before="仓库名称" style="width: 300px; margin-bottom: 20px"></a-input>
+      <a-input v-model="form.principle" addon-before="仓库负责人" style="width: 300px"></a-input>
+      <div v-if="errorMessage" style="color: red; margin-top: 10px;">{{ errorMessage }}</div>
     </a-modal>
-
   </div>
 </template>
 
@@ -49,91 +47,69 @@ export default {
     return {
       visible: false,
       form: { id: '', principle: '', name: '' },
+      errorMessage: '',
       spinning: false,
       data: [],
       imgList: [
         require('../../assets/warehouse0.svg'),
         require('../../assets/warehouse1.svg'),
-        require('../../assets/warehouse2.svg'),
-      ],
-      // 定义表单验证规则
-      rules: {
-        name: [
-          { required: true, message: '请输入仓库名称', trigger: 'blur' },
-          { validator: this.validateName, trigger: 'blur' }  // 自定义校验
-        ],
-        principle: [
-          { required: true, message: '请输入仓库负责人', trigger: 'blur' },
-          { validator: this.validatePrinciple, trigger: 'blur' }  // 自定义校验
-        ]
-      }
+        require('../../assets/warehouse2.svg'),]
     }
   },
 
   mounted() {
-    this.loadData();
+    this.loadData()
   },
 
   methods: {
-    loadData() {
-      this.spinning = true;
-      FindAllWarehouse().then((res) => {
-        if (res.status) this.data = res.data;
-        setTimeout(() => {
-          this.spinning = false;
-        }, 600);
-      });
+    close() {
+      this.errorMessage = '';
+      this.visible = false;
     },
+    loadData() {
+      this.spinning = true
+      FindAllWarehouse().then((res) => {
+        if (res.status) this.data = res.data
+        setTimeout(() => {
+          this.spinning = false
+        }, 600)
+      })
+    },
+
+    // submit() {
+    //   SaveWarehouse(this.form).then((res) => {
+    //     if (res.status) this.$message.success("添加成功")
+    //     this.visible = false
+    //     this.loadData()
+    //   })
+    // }
 
     submit() {
-      // 在提交时先进行验证
-      this.$refs.formRef.validate((valid) => {
-        if (valid) {
-          SaveWarehouse(this.form).then((res) => {
-            if (res.status) {
-              this.$message.success("添加成功");
-              this.loadData();
-              this.visible = false;
-              this.resetForm();  // 提交后重置表单
-            }
-          });
-        } else {
-          this.$message.error("请填写完整表单信息");
+      // 清除之前的错误信息
+      this.errorMessage = '';
+
+      // 校验逻辑
+      if (!this.form.name) {
+        this.errorMessage = '仓库名称不能为空';
+        return;
+      }
+      if (!this.form.principle) {
+        this.errorMessage = '仓库负责人不能为空';
+        return;
+      }
+
+      // 如果校验通过，调用保存方法
+      SaveWarehouse(this.form).then((res) => {
+        if (res.status) {
+          this.$message.success("添加成功");
+          this.visible = false;
+          this.loadData();
         }
       });
-    },
-
-    cancel() {
-      this.visible = false;
-      this.resetForm();  // 取消时重置表单
-    },
-
-    resetForm() {
-      this.$refs.formRef.resetFields();
-    },
-
-    // 自定义仓库名称验证
-    validateName(rule, value, callback) {
-      if (!value) {
-        callback(new Error('仓库名称不能为空'));
-      } else if (value.length < 3) {
-        callback(new Error('仓库名称至少包含3个字符'));
-      } else {
-        callback();  // 校验成功
-      }
-    },
-
-    // 自定义仓库负责人验证
-    validatePrinciple(rule, value, callback) {
-      if (!value) {
-        callback(new Error('仓库负责人不能为空'));
-      } else if (value.length < 2) {
-        callback(new Error('负责人名称至少包含2个字符'));
-      } else {
-        callback();  // 校验成功
-      }
     }
-  }
+
+  },
+
 }
 </script>
 
