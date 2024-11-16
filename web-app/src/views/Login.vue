@@ -1,67 +1,50 @@
 <template>
   <div class="login_container">
-  <div class="login-box">
-    <div>
+    <div class="login-box">
+      <div>
 
-      <div class="title">物流快递仓库管理系统</div>
-      <a-tabs @change="tabClick" default-active-key="1" :tabBarStyle="{ textAlign: 'center' }">
-        <a-tab-pane key="1" tab="密码登陆">
-          <a-input
-              v-model="form.email"
-              size="large"
-              style="margin-top: 10px"
-              class="input"
-              placeholder="邮箱">
-            <a-icon slot="prefix" type="mail"/>
-          </a-input>
-          <a-input-password
-              v-model="form.password"
-              size="large"
-              class="input"
-              placeholder="密码">
-            <a-icon slot="prefix" type="lock"/>
-          </a-input-password>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="验证码登陆" force-render>
-          <a-input
-              v-model="form.email"
-              size="large"
-              style="margin-top: 10px"
-              class="input"
-              placeholder="邮箱">
-            <a-icon slot="prefix" type="mail"/>
-          </a-input>
-          <div style="display: flex">
-            <a-input
-                v-model="form.code"
-                size="large"
-                class="input"
-                placeholder="验证码">
-              <a-icon slot="prefix" type="safety-certificate"/>
+        <div class="title">物流快递仓库管理系统</div>
+        <a-tabs @change="tabClick" default-active-key="1" :tabBarStyle="{ textAlign: 'center' }">
+          <a-tab-pane key="1" tab="密码登陆">
+            <a-input v-model="form.email" size="large" style="margin-top: 10px" class="input" placeholder="邮箱">
+              <a-icon slot="prefix" type="mail" />
             </a-input>
-            <a-button class="code-btn" :loading="sendLoading" @click="sendEmail">
-              获取验证码
-            </a-button>
-          </div>
-        </a-tab-pane>
-      </a-tabs>
-      <div style="margin-bottom: 20px;display: flex;justify-content: space-around;">
-        <a-checkbox v-model="form.remember" style="display: inline;">自动登录</a-checkbox>
-        <!-- <a-button type="link" to="/init">没有账号？点我注册 </a-button> -->
-        <router-link to="/init">没有账号？点我注册</router-link>
+            <a-input-password v-model="form.password" size="large" class="input" placeholder="密码"
+              @keyup.enter="submitLogin">
+              <a-icon slot="prefix" type="lock" />
+            </a-input-password>
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="验证码登陆" force-render>
+            <a-input v-model="form.email" size="large" style="margin-top: 10px" class="input" placeholder="邮箱">
+              <a-icon slot="prefix" type="mail" />
+            </a-input>
+            <div style="display: flex">
+              <a-input v-model="form.code" size="large" class="input" placeholder="验证码">
+                <a-icon slot="prefix" type="safety-certificate" />
+              </a-input>
+              <a-button class="code-btn" :loading="sendLoading" @click="sendEmail">
+                获取验证码
+              </a-button>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
+        <div style="margin-bottom: 20px;display: flex;justify-content: space-around;">
+          <a-checkbox v-model="form.remember" style="display: inline;">自动登录</a-checkbox>
+          <!-- <a-button type="link" to="/init">没有账号？点我注册 </a-button> -->
+          <router-link to="/init">没有账号？点我注册</router-link>
+        </div>
+        <a-button :loading="submitLoading" class="submit-btn" type="primary" @click="submitLogin">
+          确认登陆
+        </a-button>
+        <div class="des">管理员登录</div>
       </div>
-      <a-button :loading="submitLoading" class="submit-btn" type="primary" @click="submitLogin">
-        确认登陆
-      </a-button>
-      <div class="des">管理员登录</div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
-import {AdminLogin, AdminSendEmail} from "@/api/admin";
-import {IsInit} from "../api/admin";
+import { AdminLogin, AdminSendEmail } from "@/api/admin";
+import { IsInit } from "../api/admin";
 import service from "../utils/request"
 export default {
   data() {
@@ -136,21 +119,20 @@ export default {
 </script>
 
 <style scoped>
-
 .login_container {
   width: 100%;
   height: 100vh;
   background-image: url(../assets/13.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-   
+
 }
 
- .ant-tabs-bar {
+.ant-tabs-bar {
   border-bottom: none !important;
 }
 
- .ant-btn-primary {
+.ant-btn-primary {
   border-color: #5a84fd;
 }
 
@@ -160,7 +142,7 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  
+
 }
 
 .box-header {
@@ -183,11 +165,11 @@ export default {
   width: 350px;
 }
 
- .ant-tabs-ink-bar {
+.ant-tabs-ink-bar {
   left: 52px;
 }
 
- .ant-input-affix-wrapper .ant-input {
+.ant-input-affix-wrapper .ant-input {
   font-size: 12px !important;
 }
 
