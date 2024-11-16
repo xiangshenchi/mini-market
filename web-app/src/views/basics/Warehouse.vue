@@ -84,17 +84,24 @@ export default {
     //   })
     // }
 
+    // 自定义校验规则
+    validateForm() {
+      if (!this.form.name || this.form.name.length < 3) {
+        return '仓库名称必须至少包含三个字符';
+      }
+      if (!this.form.principle || /\d/.test(this.form.principle)) {
+        return '仓库负责人不能包含数字';
+      }
+      return '';
+    },
     submit() {
       // 清除之前的错误信息
       this.errorMessage = '';
 
-      // 校验逻辑
-      if (!this.form.name) {
-        this.errorMessage = '仓库名称不能为空';
-        return;
-      }
-      if (!this.form.principle) {
-        this.errorMessage = '仓库负责人不能为空';
+      // 调用自定义校验方法
+      const validationError = this.validateForm();
+      if (validationError) {
+        this.errorMessage = validationError;
         return;
       }
 
