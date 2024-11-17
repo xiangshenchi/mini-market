@@ -2,71 +2,68 @@
   <div class="main">
     <a-steps :current="current">
       <a-step title="填写申请信息"></a-step>
-      <a-step title="确认配送信息"/>
-      <a-step title="完成申请"/>
+      <a-step title="确认配送信息" />
+      <a-step title="完成申请" />
     </a-steps>
     <div class="steps-content">
       <div v-if="current === 0">
-        <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
-          <a-form-model-item label="选择司机" required>
-            <a-select v-model="selectDriverIndex" placeholder="请选择配送司机">
+        <a-form-model :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol" ref="formRef">
+          <a-form-model-item label="选择司机" prop="selectDriverIndex">
+            <a-select v-model="form.selectDriverIndex" placeholder="请选择配送司机">
               <a-select-option :value="index" v-for="(item, index) in drivers" :key="index" :disabled="item.driving">
                 {{ item.name }}
                 <i class="dis" v-if="item.driving">
-                  <a-icon type="close-circle"/>
-                  正在途中</i>
+                  <a-icon type="close-circle" />
+                  正在途中
+                </i>
               </a-select-option>
             </a-select>
           </a-form-model-item>
-          <a-form-model-item label="选择运输车辆" required>
-            <a-select v-model="selectVehicleIndex" placeholder="请选择配送车辆">
+
+          <a-form-model-item label="选择运输车辆" prop="selectVehicleIndex">
+            <a-select v-model="form.selectVehicleIndex" placeholder="请选择配送车辆">
               <a-select-option :value="index" v-for="(item, index) in vehicles" :key="index" :disabled="item.driving">
                 {{ item.type }} : {{ item.number }}
                 <i class="dis" v-if="item.driving">
-                  <a-icon type="close-circle"/>
-                  正在途中</i>
+                  <a-icon type="close-circle" />
+                  正在途中
+                </i>
               </a-select-option>
             </a-select>
           </a-form-model-item>
-          <a-form-model-item label="预计交货时间" required>
-            <a-date-picker
-                v-model="form.time"
-                show-time
-                type="date"
-                format="YYYY-MM-DD HH:mm:ss"
-                value-format="YYYY-MM-DD HH:mm:ss"
-                placeholder="选择日期"
-                style="width: 100%;"
-            />
+
+          <a-form-model-item label="预计交货时间" prop="time">
+            <a-date-picker v-model="form.time" show-time type="date" format="YYYY-MM-DD HH:mm:ss"
+              value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择日期" style="width: 100%;" />
           </a-form-model-item>
+
           <a-form-model-item label="加急处理">
-            <a-switch v-model="form.urgent"/>
+            <a-switch v-model="form.urgent" />
           </a-form-model-item>
-          <a-form-model-item label="注意事项">
+
+          <a-form-model-item label="注意事项" prop="cares">
             <a-checkbox-group v-model="form.cares">
-              <a-checkbox value="冰柜冷藏" name="type">
-                冰柜冷藏
-              </a-checkbox>
-              <a-checkbox value="注意易碎" name="type">
-                注意易碎
-              </a-checkbox>
-              <a-checkbox value="防止高温" name="type">
-                防止高温
-              </a-checkbox>
+              <a-checkbox value="冰柜冷藏" name="type">冰柜冷藏</a-checkbox>
+              <a-checkbox value="注意易碎" name="type">注意易碎</a-checkbox>
+              <a-checkbox value="防止高温" name="type">防止高温</a-checkbox>
             </a-checkbox-group>
           </a-form-model-item>
-          <a-form-model-item label="客户电话" required>
-            <a-input v-model="form.phone"/>
+
+          <a-form-model-item label="客户电话" prop="phone">
+            <a-input v-model="form.phone" />
           </a-form-model-item>
-          <a-form-model-item label="客户地址" required>
-            <a-input v-model="form.address" type="textarea" :rows="4"/>
+
+          <a-form-model-item label="客户地址" prop="address">
+            <a-input v-model="form.address" type="textarea" :rows="4" />
           </a-form-model-item>
+
           <a-form-model-item :wrapper-col="{ span: 14, offset: 6 }">
             <a-button type="primary" @click="next">
               下一步
             </a-button>
           </a-form-model-item>
         </a-form-model>
+
       </div>
       <div v-if="current === 1" class="check">
         <p>送货司机： {{ form.driver }}</p>
@@ -80,11 +77,7 @@
         <a-button @click="current = 0">上一步</a-button>
       </div>
       <div v-if="current === 2">
-        <a-result
-            status="success"
-            title="提交成功"
-            sub-title="请等待管理员查看传递请求"
-        >
+        <a-result status="success" title="提交成功" sub-title="请等待管理员查看传递请求">
           <template #extra>
             <router-link to="/delivery/list">
               <a-button key="console" type="primary">
@@ -102,15 +95,15 @@
 </template>
 
 <script>
-import {FindAllCanUse, SaveDistribution} from "../../api/distribution";
+import { FindAllCanUse, SaveDistribution } from "../../api/distribution";
 
 export default {
 
   data() {
     return {
       loading: false,
-      labelCol: {span: 6},
-      wrapperCol: {span: 12},
+      labelCol: { span: 6 },
+      wrapperCol: { span: 12 },
       current: 0,
       selectDriverIndex: 0,
       selectVehicleIndex: 0,
@@ -130,6 +123,34 @@ export default {
         time: '',
         status: 0,
       },
+      rules: {
+        selectDriverIndex: [
+          { required: true, message: "请选择配送司机", trigger: "change" },
+        ],
+        selectVehicleIndex: [
+          { required: true, message: "请选择配送车辆", trigger: "change" },
+        ],
+        time: [
+          { required: true, message: "请选择预计交货时间", trigger: "change" },
+        ],
+        phone: [
+          { required: true, message: "请输入客户电话", trigger: "blur" },
+          {
+            pattern: /^1[3-9]\d{9}$/,
+            message: "请输入有效的手机号",
+            trigger: "blur",
+          },
+        ],
+        address: [
+          { required: true, message: "请输入客户地址", trigger: "blur" },
+        ],
+      },
+      drivers: [
+        { required: true, message: "请选择司机", trigger: "blur" },
+      ],
+      vehicles: [
+        { required: true, message: "请选择运输车辆", trigger: "blur" },
+      ],
     }
   },
 
@@ -145,17 +166,36 @@ export default {
   },
 
   methods: {
+    // next() {
+    //   let care = ''
+    //   for (let i = 0; i < this.form.cares.length; i++) {
+    //     care += this.form.cares[i] + ", "
+    //   }
+    //   this.form.driver = this.drivers[this.selectDriverIndex].name
+    //   this.form.did = this.drivers[this.selectDriverIndex].id
+    //   this.form.number = this.vehicles[this.selectVehicleIndex].number
+    //   this.form.vid = this.vehicles[this.selectVehicleIndex].id
+    //   this.form.care = care
+    //   this.current = 1
+    // },
     next() {
-      let care = ''
-      for (let i = 0; i < this.form.cares.length; i++) {
-        care += this.form.cares[i] + ", "
-      }
-      this.form.driver = this.drivers[this.selectDriverIndex].name
-      this.form.did = this.drivers[this.selectDriverIndex].id
-      this.form.number = this.vehicles[this.selectVehicleIndex].number
-      this.form.vid = this.vehicles[this.selectVehicleIndex].id
-      this.form.care = care
-      this.current = 1
+      this.$refs.formRef.validate((valid) => {
+        if (valid) {
+          this.$message.success("表单验证通过，进入下一步！");
+          let care = ''
+          for (let i = 0; i < this.form.cares.length; i++) {
+            care += this.form.cares[i] + ", "
+          }
+          this.form.driver = this.drivers[this.selectDriverIndex].name
+          this.form.did = this.drivers[this.selectDriverIndex].id
+          this.form.number = this.vehicles[this.selectVehicleIndex].number
+          this.form.vid = this.vehicles[this.selectVehicleIndex].id
+          this.form.care = care
+          this.current = 1
+        } else {
+          this.$message.error("请修正表单中的错误！");
+        }
+      });
     },
     submit() {
       this.loading = true
@@ -203,5 +243,4 @@ export default {
   letter-spacing: 1px;
   color: red;
 }
-
 </style>
