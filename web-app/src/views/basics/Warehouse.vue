@@ -93,16 +93,16 @@ export default {
 
     // 自定义校验规则
     validateForm() {
-      if (!this.form.name ) {
+      if (!this.form.name) {
         return '未填写仓库名称';
       }
       if (this.form.name.length < 3) {
         return '仓库名称必须至少包含三个字符';
       }
-      if (!this.form.principle ) {
+      if (!this.form.principle) {
         return '未填写仓库负责人';
       }
-      if ( /\d/.test(this.form.principle)) {
+      if (/\d/.test(this.form.principle)) {
         return '仓库负责人不能包含数字';
       }
       return '';

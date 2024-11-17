@@ -29,19 +29,20 @@
     </a-table>
 
     <a-modal title="商品信息" :closable="false" :visible="commodityVisible">
-      <a-form-model ref="ruleForm" :model="commodity">
-        <a-form-model-item ref="name" label="商品名称" prop="name">
-          <a-input v-model="commodity.name" />
+      <a-form-model ref="ruleForm" :model="commodity" :rules="rules" label-col="{ span: 6 }" wrapper-col="{ span: 14 }">
+        <a-form-model-item label="商品名称" prop="name">
+          <a-input v-model="commodity.name" placeholder="请输入商品名称" />
         </a-form-model-item>
         <a-form-model-item label="商品单价" prop="price">
-          <a-input-number id="input" v-model="commodity.price" :min="1" />
+          <a-input-number v-model="commodity.price" :min="1" placeholder="请输入商品单价" />
         </a-form-model-item>
         <a-form-model-item label="描述信息" prop="description">
-          <a-input v-model="commodity.description" type="textarea" />
+          <a-textarea v-model="commodity.description" placeholder="请输入描述信息" rows="3" />
         </a-form-model-item>
       </a-form-model>
+
       <template slot="footer">
-        <a-button key="back" @click="commodityVisible = false">
+        <a-button key="back" @click="closeCommodityModal">
           返回
         </a-button>
         <a-button key="submit" type="primary" :loading="modalLoading" @click="submitCommodity">
@@ -49,7 +50,6 @@
         </a-button>
       </template>
     </a-modal>
-
   </div>
 </template>
 
@@ -109,6 +109,19 @@ export default {
         count: 0,
         price: 9.99,
       },
+      rules: {
+        name: [
+          { required: true, message: "商品名称不能为空", trigger: "blur" },
+          { min: 3, message: "商品名称至少3个字符", trigger: "blur" },
+        ],
+        price: [
+          { required: true, message: "商品单价不能为空", trigger: "change" },
+          { type: "number", min: 1, message: "商品单价必须大于0", trigger: "change" },
+        ],
+        description: [
+          { required: true, message: "描述信息不能为空", trigger: "blur" },
+        ],
+      },
       loading: false,
       modalLoading: false,
       commodityVisible: false,
@@ -156,22 +169,53 @@ export default {
         }, 600)
       })
     },
+    closeCommodityModal() {
+      this.commodityVisible = false;
+      this.resetForm();
+    },
+    resetForm() {
+      const { price } = this.commodity; // 提取当前的 price 值
+      this.commodity = {
+        name: "",
+        price, // 保留原来的 price 值
+        description: "",
+      };
+      if (this.$refs.ruleForm) {
+        this.$refs.ruleForm.resetFields();
+        this.$refs.ruleForm.model.price = price; // 单独设置 price，避免被清空
+      }
+    },
     submitCommodity() {
-      this.modalLoading = true
-      SaveCommodity(this.commodity).then((res) => {
-        if (res.status) {
-          setTimeout(() => {
-            this.modalLoading = false
-            this.commodityVisible = false
-            this.$message.success('商品信息提交成功');
-            this.loadTableData()
-          }, 600)
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          // 表单校验通过，开始提交
+          this.modalLoading = true;
+          SaveCommodity(this.commodity)
+            .then((res) => {
+              setTimeout(() => {
+                this.modalLoading = false;
+                if (res.status) {
+                  this.commodityVisible = false;
+                  this.$message.success("商品信息提交成功");
+                  this.loadTableData(); // 刷新表格数据
+                  this.resetForm(); // 提交成功后重置表单
+                } else {
+                  this.$message.error("商品信息提交失败，请重试");
+                }
+              }, 600);
+            })
+            .catch(() => {
+              // 异常处理
+              setTimeout(() => {
+                this.modalLoading = false;
+                this.$message.error("网络错误，请稍后重试");
+              }, 600);
+            });
         } else {
-          setTimeout(() => {
-            this.modalLoading = false
-          }, 600)
+          // 表单校验失败
+          this.$message.error("请修正表单中的错误");
         }
-      })
+      });
     },
 
     handleDelete(r, index) {
@@ -186,6 +230,7 @@ export default {
       this.commodity = r
       this.commodityVisible = true
     },
+
 
   },
 };
