@@ -62,10 +62,6 @@ export default {
   },
 
   methods: {
-    close() {
-      this.errorMessage = '';
-      this.visible = false;
-    },
     loadData() {
       this.spinning = true
       FindAllWarehouse().then((res) => {
@@ -75,7 +71,18 @@ export default {
         }, 600)
       })
     },
-
+    resetForm() {
+      // 重置表单数据和校验状态
+      this.form = { id: "", principle: "", name: "" };
+      this.errorMessage = "";
+      if (this.$refs.formRef) {
+        this.$refs.formRef.resetFields();
+      }
+    },
+    close() {
+      this.resetForm();
+      this.visible = false;
+    },
     // submit() {
     //   SaveWarehouse(this.form).then((res) => {
     //     if (res.status) this.$message.success("添加成功")
@@ -86,10 +93,16 @@ export default {
 
     // 自定义校验规则
     validateForm() {
-      if (!this.form.name || this.form.name.length < 3) {
+      if (!this.form.name ) {
+        return '未填写仓库名称';
+      }
+      if (this.form.name.length < 3) {
         return '仓库名称必须至少包含三个字符';
       }
-      if (!this.form.principle || /\d/.test(this.form.principle)) {
+      if (!this.form.principle ) {
+        return '未填写仓库负责人';
+      }
+      if ( /\d/.test(this.form.principle)) {
         return '仓库负责人不能包含数字';
       }
       return '';
@@ -111,6 +124,7 @@ export default {
           this.$message.success("添加成功");
           this.visible = false;
           this.loadData();
+          this.resetForm(); // 提交成功后清空表单
         }
       });
     }
