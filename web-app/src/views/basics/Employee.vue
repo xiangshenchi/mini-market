@@ -36,37 +36,31 @@
       </template>
     </a-table>
 
-    <a-modal title="新增员工" :visible="visible" @ok="submitForm" @cancel="visible = false" ok-text="提交" cancel-text="取消">
-      <a-form-model :model="form">
-        <a-form-model-item label="姓名">
+    <a-modal title="新增员工" :visible="visible" @ok="submitForm" @cancel="closeModal" ok-text="提交" cancel-text="取消">
+      <a-form-model :model="form" :rules="rules" ref="ruleForm" label-col="{ span: 6 }" wrapper-col="{ span: 14 }">
+        <a-form-model-item label="姓名" prop="name">
           <a-input v-model="form.name" placeholder="请输入司机姓名" />
         </a-form-model-item>
-        <a-form-model-item label="身份证号">
+        <a-form-model-item label="身份证号" prop="idCard">
           <a-input v-model="form.idCard" placeholder="请输入司机身份证信息" />
         </a-form-model-item>
-        <a-form-model-item label="联系方式">
+        <a-form-model-item label="联系方式" prop="phone">
           <a-input v-model="form.phone" placeholder="请输入手机号码" />
         </a-form-model-item>
-        <!-- <a-form-model-item label="所在仓库">
-          <a-select v-model="form.department" v-for="(item,index) in warehouseList" placeholder="请选择员工所在仓库">
-            <a-select-option :value="item.name">{{ item.name }}</a-select-option>
-          </a-select>
-        </a-form-model-item> -->
-        <a-form-model-item label="所在仓库">
+        <a-form-model-item label="所在仓库" prop="department">
           <a-select v-model="form.department" placeholder="请选择员工所在仓库">
             <a-select-option v-for="(item, index) in warehouseList" :key="index" :value="item.name">
               {{ item.name }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
-
-        <a-form-model-item label="性别">
+        <a-form-model-item label="性别" prop="gender">
           <a-radio-group v-model="form.gender">
             <a-radio value="男性">男性</a-radio>
             <a-radio value="女性">女性</a-radio>
           </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="家庭住址">
+        <a-form-model-item label="家庭住址" prop="address">
           <a-input v-model="form.address" type="textarea" />
         </a-form-model-item>
       </a-form-model>
@@ -130,6 +124,29 @@ export default {
         address: '',
         idCard: '',
       },
+      rules: {
+        name: [
+          { required: true, message: "姓名不能为空", trigger: "blur" },
+          { min: 2, message: "姓名至少包含两个字符", trigger: "blur" },
+        ],
+        idCard: [
+          { required: true, message: "身份证号不能为空", trigger: "blur" },
+          { pattern: /^[1-9]\d{16}[\dXx]$/, message: "请输入有效的身份证号", trigger: "blur" },
+        ],
+        phone: [
+          { required: true, message: "联系方式不能为空", trigger: "blur" },
+          { pattern: /^1[3-9]\d{9}$/, message: "请输入有效的手机号码", trigger: "blur" },
+        ],
+        department: [
+          { required: true, message: "请选择所在仓库", trigger: "change" },
+        ],
+        gender: [
+          { required: true, message: "请选择性别", trigger: "change" },
+        ],
+        address: [
+          { required: true, message: "家庭住址不能为空", trigger: "blur" },
+        ],
+      },
       visible: false,
       data: [],
       columns,
@@ -161,14 +178,41 @@ export default {
       })
     },
 
-    submitForm() {
-      SaveEmployee(this.form).then((res) => {
-        if (res.status) this.$message.success('员工信息提交成功');
-        this.visible = false
-        this.loadTableData()
-      })
+    closeModal() {
+      this.visible = false;
+      this.resetForm();
     },
-
+    resetForm() {
+      this.form = {
+        name: "",
+        idCard: "",
+        phone: "",
+        department: "",
+        gender: "",
+        address: "",
+      };
+      if (this.$refs.ruleForm) {
+        this.$refs.ruleForm.resetFields();
+      }
+    },
+    submitForm() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          SaveEmployee(this.form).then((res) => {
+            if (res.status) {
+              this.$message.success("员工信息提交成功");
+              this.visible = false;
+              this.resetForm(); // 提交成功后清空表单
+              this.loadTableData(); // 刷新表格数据
+            } else {
+              this.$message.error("提交失败，请稍后重试");
+            }
+          });
+        } else {
+          this.$message.error("请修正表单中的错误");
+        }
+      });
+    },
     handleChange(value, id, column) {
       const newData = [...this.data];
       const target = newData.filter(item => id === item.id)[0];
