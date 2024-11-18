@@ -3,7 +3,7 @@
     <div class="login-box">
       <div>
 
-        <div class="title">物流快递仓库管理系统</div>
+        <div class="title">智慧超市管理系统</div>
         <a-tabs @change="tabClick" default-active-key="1" :tabBarStyle="{ textAlign: 'center' }">
           <a-tab-pane key="1" tab="密码登陆">
             <a-input v-model="form.email" size="large" style="margin-top: 10px" class="input" placeholder="邮箱">
