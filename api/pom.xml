@@ -50,12 +50,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>5.3.3</version>
         </dependency>
+        <!--ip寻址-->
+        <dependency>
+            <groupId>com.jthinking.common</groupId>
+            <artifactId>ip-info</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+
 
         <!--jwt依赖-->
         <dependency>
