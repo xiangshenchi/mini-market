@@ -83,7 +83,7 @@ export default {
     },
 
     submitLogin() {
-  if (this.checkEmail()) {
+      if (this.checkEmail()) {
     let type = this.submitType === '1' ? "password" : "email"; // 修正拼写
     this.submitLoading = true; // 开始加载状态
     AdminLogin(type, this.form).then((res) => {
@@ -106,6 +106,7 @@ export default {
   }
 }
 ,
+
 
     tabClick(key) {
       this.submitType = key
