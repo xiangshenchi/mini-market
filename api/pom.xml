@@ -27,6 +27,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- AntPathMatcher spring-web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.3.10</version> <!-- 使用适合您项目的版本 -->
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

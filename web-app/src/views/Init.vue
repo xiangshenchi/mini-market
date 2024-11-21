@@ -8,32 +8,17 @@
         <div class="title"> </div>
         <a-form-model :model="form" :rules="rules" ref="formRef">
           <a-form-model-item prop="email">
-            <a-input
-              v-model="form.email"
-              size="large"
-              class="input"
-              placeholder="邮箱"
-            >
+            <a-input v-model="form.email" size="large" class="input" placeholder="邮箱">
               <a-icon slot="prefix" type="mail" />
             </a-input>
           </a-form-model-item>
-          <a-form-model-item  prop="password">
-            <a-input-password
-              v-model="form.password"
-              size="large"
-              class="input"
-              placeholder="密码"
-            >
+          <a-form-model-item prop="password">
+            <a-input-password v-model="form.password" size="large" class="input" placeholder="密码">
               <a-icon slot="prefix" type="lock" />
             </a-input-password>
           </a-form-model-item>
 
-          <a-button
-            :loading="submitLoading"
-            class="submit-btn"
-            type="primary"
-            @click="submitLogin"
-          >
+          <a-button :loading="submitLoading" class="submit-btn" type="primary" @click="submitLogin">
             注册提交
           </a-button>
         </a-form-model>
@@ -57,7 +42,7 @@
 </template>
 
 <script>
-import { Init, IsInit } from "../api/admin";
+import { Init, IsInit, exitsAdmin } from "../api/admin";
 // import { CaretRightOutlined } from '@ant-design/icons-vue';
 
 export default {
@@ -77,7 +62,8 @@ export default {
         email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/, message: '请输入有效的邮箱地址', trigger: 'blur' },
-          { min: 8, message: '邮箱长度不能少于8位', trigger: 'blur' }
+          { min: 8, message: '邮箱长度不能少于8位', trigger: 'blur' },
+          { validator: this.checkDuplicate, trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -95,6 +81,19 @@ export default {
   },
 
   methods: {
+    checkDuplicate(rule, value, callback) {
+      if (!value) {
+        return callback(new Error('请输入账号'));
+      }
+
+      exitsAdmin(value).then((res) => {
+        if (res.data) {
+          callback(new Error('账号已存在'));
+        } else {
+          callback();
+        }
+      }).catch(() => callback(new Error('验证失败')));
+    },
     submitLogin() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {

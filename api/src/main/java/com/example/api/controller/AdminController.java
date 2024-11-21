@@ -37,6 +37,11 @@ public class AdminController {
     @Resource
     private LoginLogService loginLogService;
 
+     @GetMapping("exitsAdmin")
+    public boolean exitsAdmin(String email) {
+        return adminRepository.existsAdminByEmail(email);
+    }
+
     @GetMapping("hasInit")
     public boolean hasInit() {
         return adminRepository.existsAdminByRoles(Role.ROLE_SUPER_ADMIN.getValue());

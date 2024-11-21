@@ -3,6 +3,7 @@ package com.example.api.security;
 import com.example.api.model.support.ResponseResult;
 import com.example.api.utils.JwtTokenUtil;
 import com.example.api.utils.ResponseUtil;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,6 +33,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+
+            String requestURI = request.getRequestURI();
+
+            // 定义无需认证的路径
+            List<String> excludePaths = Arrays.asList("/api/admin/exitsAdmin");
+
+            // 检查当前请求路径是否需要跳过认证
+            for (String path : excludePaths) {
+                if (new AntPathMatcher().match(path, requestURI)) {
+                    chain.doFilter(request, response); // 直接放行
+                    return;
+                }
+            }
 
         //从Request Header 取出Token
         String token = request.getHeader(JwtTokenUtil.TOKEN_HEADER);

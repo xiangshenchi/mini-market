@@ -28,6 +28,12 @@ export function FindAllAdmin() {
         method: 'get',
     })
 }
+export function exitsAdmin(email) {
+    return service({
+        url: '/admin/exitsAdmin?email=' + email,
+        method: 'get',
+    })
+}
 
 export function SaveAdmin(data) {
     return service({
