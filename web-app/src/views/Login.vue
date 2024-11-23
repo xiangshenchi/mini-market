@@ -84,29 +84,21 @@ export default {
 
     submitLogin() {
       if (this.checkEmail()) {
-    let type = this.submitType === '1' ? "password" : "email"; // 修正拼写
-    this.submitLoading = true; // 开始加载状态
-    AdminLogin(type, this.form).then((res) => {
-      if (res.status) {
-        this.$store.commit('user/saveToken', res.data.token);
-        this.$store.commit('user/saveLoginUser ', res.data.admin);
-        setTimeout(() => {
-          this.$router.push("/commodity");
-          this.submitLoading = false; // 停止加载状态
-        }, 1000);
-        this.$message.success("登录成功");
-      } else {
-        this.$message.error(res.data.msg || "登录失败，请重试");
-        this.submitLoading = false; // 停止加载状态
+        let type = this.submitType === '1' ? "passwrod" : "email"
+        AdminLogin(type, this.form).then((res) => {
+          if (res.status) {
+            //存入往LocalStore存入Token
+            this.$store.commit('user/saveToken', res.data.token)
+            this.$store.commit('user/saveLoginUser', res.data.admin)
+            setTimeout(() => {
+              this.$router.push("/commodity")
+              this.submitLoading = false
+            }, 1000)
+            this.$message.success("登录成功")
+          }
+        })
       }
-    }).catch((error) => {
-      this.$message.error("网络错误，请稍后再试");
-      this.submitLoading = false; // 停止加载状态
-    });
-  }
-}
-,
-
+    },
 
     tabClick(key) {
       this.submitType = key
