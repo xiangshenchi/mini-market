@@ -27,7 +27,7 @@ public class EmailController {
         //发件人
         message.setFrom(from);
         //收件人
-        message.setTo("1402014577@qq.com");
+        message.setTo("1483618794@qq.com");
         message.setSubject("验证码");
         message.setText("你的验证码为:  " + RandomUtil.next() + "  十五分钟内有效");
         try {

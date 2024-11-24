@@ -32,10 +32,10 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(email);
         //设置标题
         message.setSubject("验证码");
-        String value = "123456";
+        String value =  RandomUtil.next() ;
         message.setText("你的验证码为:  " + value + "  十五分钟内有效");
         try {
-//            mailSender.send(message);
+            mailSender.send(message);
         }catch (Exception e){
             e.printStackTrace();
             return false;

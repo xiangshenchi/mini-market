@@ -12,13 +12,9 @@ spring:
     # 使用465端口进行SSL加密
     port: 465
     properties:
-      mail:
-        debug: true
-        smtp:
-          ssl:
-            enable: true
-          starttls:
-            enable: true  # 如果需要使用STARTTLS支持
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.enable: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql.sqlpub.com:3306/yunshu
