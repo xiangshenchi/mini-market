@@ -50,6 +50,8 @@ public class AdminController {
     @PostMapping("/init")
     public Admin init(@RequestBody Admin admin) throws Exception {
         admin.setRoles(Role.ROLE_SUPER_ADMIN.getValue());
+        boolean status = adminRepository.existsAdminByEmail(admin.getEmail());
+        if (status) throw new Exception("邮箱已注册");
         return adminService.save(admin);
     }
 
