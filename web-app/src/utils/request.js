@@ -4,10 +4,17 @@ import router from '../router/index'
 
 var token = localStorage.getItem("token")
 var service = request.create({
-    baseURL: 'http://111.170.11.149:22210/api',
+    baseURL: 'http://111.170.11.164:10600/api',
     timeout: 50000
 });
 
+// request.interceptors.request.use(config => {
+//     config.headers['Content-Type'] = 'application/json;charset=utf-8';        // 设置请求头格式
+//     return config
+// }, error => {
+//     console.error('request error: ' + error) // for debug
+//     return Promise.reject(error)
+// });
 
 service.interceptors.response.use(
     response => {
