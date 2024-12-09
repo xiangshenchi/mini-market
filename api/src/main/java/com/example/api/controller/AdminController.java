@@ -39,8 +39,16 @@ public class AdminController {
     private LoginLogService loginLogService;
 
     @GetMapping("exitsAdmin")
-    public boolean exitsAdmin(String email) {
-        return adminRepository.existsAdminByEmail(email);
+    public ResponseResult exitsAdmin(String email) {
+        Boolean flag=adminRepository.existsAdminByEmail(email);
+        ResponseResult res = new ResponseResult();
+        if (flag){
+            res.setMsg("邮箱已注册");
+            } else {
+            res.setMsg("邮箱未注册");
+        }
+        res.setStatus(flag);
+        return res;
     }
 
     @GetMapping("hasInit")
@@ -52,8 +60,7 @@ public class AdminController {
     public Admin init(@RequestBody Admin admin) throws Exception {
         admin.setRoles(Role.ROLE_SUPER_ADMIN.getValue());
         boolean exit = adminRepository.existsAdminByEmail(admin.getEmail());
-        if (exit)
-            throw new Exception("邮箱已注册");
+        if (exit)throw new Exception("邮箱已注册");
         return adminService.save(admin);
     }
 
