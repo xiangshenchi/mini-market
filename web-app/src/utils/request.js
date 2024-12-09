@@ -8,6 +8,13 @@ var service = request.create({
     timeout: 50000
 });
 
+// request.interceptors.request.use(config => {
+//     config.headers['Content-Type'] = 'application/json;charset=utf-8';        // 设置请求头格式
+//     return config
+// }, error => {
+//     console.error('request error: ' + error) // for debug
+//     return Promise.reject(error)
+// });
 
 service.interceptors.response.use(
     response => {

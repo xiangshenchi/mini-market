@@ -27,7 +27,7 @@ public class SaleController {
 
     @GetMapping("/search/{name}")
     public List<Sale> search(@PathVariable String name) {
-        return saleService.searchByCompany(name);
+        return saleService.searchByCompany("%" + name + "%");
     }
 
 }
