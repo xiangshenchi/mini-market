@@ -22,21 +22,20 @@ public class EmailController {
     private String from;
 
     @GetMapping("/send")
-    public String send() {
+    public void send(String email) {
         SimpleMailMessage message = new SimpleMailMessage();
-        //发件人
+        // 发件人
         message.setFrom(from);
-        //收件人
-        message.setTo("1483618794@qq.com");
+        // 收件人
+        message.setTo(email);
         message.setSubject("验证码");
-        message.setText("你的验证码为:  " + RandomUtil.next() + "  十五分钟内有效");
+        message.setText("你的验证码为: " + RandomUtil.next() + "  十五分钟内有效");
+        
         try {
             mailSender.send(message);
-            return "发送普通邮件成功";
+           System.out.println( "发送普通邮件成功");
         } catch (MailException e) {
             e.printStackTrace();
-            return "邮件方失败";
         }
     }
-
 }
