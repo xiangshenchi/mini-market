@@ -21,11 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @RestController
 @RequestMapping("/api/admin")
 @Slf4j
 public class AdminController {
-    //获取日志对象
+    // 获取日志对象
     Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Resource
@@ -37,7 +38,7 @@ public class AdminController {
     @Resource
     private LoginLogService loginLogService;
 
-     @GetMapping("exitsAdmin")
+    @GetMapping("exitsAdmin")
     public boolean exitsAdmin(String email) {
         return adminRepository.existsAdminByEmail(email);
     }
@@ -50,13 +51,9 @@ public class AdminController {
     @PostMapping("/init")
     public Admin init(@RequestBody Admin admin) throws Exception {
         admin.setRoles(Role.ROLE_SUPER_ADMIN.getValue());
-<<<<<<< HEAD
-        boolean status = adminRepository.existsAdminByEmail(admin.getEmail());
-        if (status) throw new Exception("邮箱已注册");
-=======
-         boolean exit= adminRepository.existsAdminByEmail(admin.getEmail());
-        if (exit) throw new Exception("已经存在的邮箱账户");
->>>>>>> b0117ac8eae0e8f0ded4680b28a3a28c711b9cdb
+        boolean exit = adminRepository.existsAdminByEmail(admin.getEmail());
+        if (exit)
+            throw new Exception("邮箱已注册");
         return adminService.save(admin);
     }
 
@@ -79,7 +76,8 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> loginByEmail(String type, @RequestBody LoginDto dto, HttpServletRequest request) throws Exception {
+    public Map<String, Object> loginByEmail(String type, @RequestBody LoginDto dto, HttpServletRequest request)
+            throws Exception {
         Map<String, Object> map = new HashMap<>();
         Admin admin = null;
         String token = null;
@@ -87,10 +85,10 @@ public class AdminController {
             admin = type.equals("email") ? adminService.loginByEmail(dto) : adminService.loginByPassword(dto);
             token = adminService.createToken(admin,
                     dto.isRemember() ? JwtTokenUtil.REMEMBER_EXPIRATION_TIME : JwtTokenUtil.EXPIRATION_TIME);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("邮箱或密码错误");
-        }finally {
-            loginLogService.recordLog(dto,admin,request);
+        } finally {
+            loginLogService.recordLog(dto, admin, request);
         }
         map.put("admin", admin);
         map.put("token", token);
@@ -101,9 +99,9 @@ public class AdminController {
     public ResponseResult sendEmail(String email) throws Exception {
         Boolean flag = adminService.sendEmail(email);
         ResponseResult res = new ResponseResult();
-        if (flag){
+        if (flag) {
             res.setMsg("发送成功，请登录邮箱查看");
-        }else {
+        } else {
             res.setMsg("发送验证码失败，请检查邮箱服务");
         }
         res.setStatus(flag);
