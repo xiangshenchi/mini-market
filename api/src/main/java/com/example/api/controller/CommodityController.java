@@ -44,14 +44,9 @@ public class CommodityController {
 
     @Log(moudle = "商品管理",type = BusincessType.QUERY)
     @GetMapping("/search/{name}")
-    // public List<Commodity> findByLikeName(@PathVariable String name) {
-    //     return commodityService.findAllByLikeName(name);
-    // }
-
-    // @RequestMapping("/search/{name}")
-    public List<Commodity> findByLikeName(@PathVariable String name) {
+    public List<Commodity> findByLikeName(@PathVariable String name)throws Exception {
         // 检查传入的 name 是否为空或仅包含空格
-        if (name == null || name.trim().isEmpty()) throw new Exception("Name cannot be empty");
+        if (name == null || name.trim().isEmpty()) throw new Exception("输入无效");
         return commodityService.findAllByLikeName(name);
     }
 

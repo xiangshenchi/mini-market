@@ -137,6 +137,12 @@ export default {
 
   methods: {
     onSearch(value) {
+      // 检查用户输入
+      if (!value || value.trim() === '') {
+        this.$message.warn("请输入搜索内容");
+        return; // 直接返回，避免继续执行
+      }
+
       if (value) {
         this.loading = true
         SearchCommodity(value).then((res) => {

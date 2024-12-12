@@ -1,31 +1,26 @@
 <template>
   <div>
-    <a-input-search
-        placeholder="请输入公司名"
-        enter-button="搜索"
-        style="width: 400px;margin-bottom: 20px"
-        size="large"
-        @search="onSearch"
-    />
+    <a-input-search placeholder="请输入公司名" enter-button="搜索" style="width: 400px;margin-bottom: 20px" size="large"
+      @search="onSearch" />
     <a-button style="margin-left: 10px" size="large" type="danger" @click="loadTableData">
       重置
     </a-button>
     <a-table :loading="loading" :columns="columns" :data-source="data" rowKey="id">
       <a slot="company" slot-scope="company">{{ company }}</a>
-      <span slot="customTitle"><a-icon type="bank"/> 公司名称</span>
+      <span slot="customTitle"><a-icon type="bank" /> 公司名称</span>
     </a-table>
   </div>
 </template>
 
 <script>
-import {FindAllSale, SearchCompany} from "../../api/sale";
+import { FindAllSale, SearchCompany } from "../../api/sale";
 
 const columns = [
   {
     dataIndex: 'company',
     key: 'company',
-    slots: {title: 'customTitle'},
-    scopedSlots: {customRender: 'company'},
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'company' },
   },
   {
     title: '预留电话',
@@ -56,6 +51,11 @@ export default {
 
   methods: {
     onSearch(value) {
+      // 检查用户输入
+      if (!value || value.trim() === '') {
+        this.$message.warn("请输入搜索内容");
+        return; // 直接返回，避免继续执行
+      }
       if (value) {
         this.loading = true
         SearchCompany(value).then((res) => {

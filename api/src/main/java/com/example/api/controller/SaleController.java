@@ -26,7 +26,8 @@ public class SaleController {
     }
 
     @GetMapping("/search/{name}")
-    public List<Sale> search(@PathVariable String name) {
+    public List<Sale> search(@PathVariable String name) throws Exception{
+        if (name == null || name.trim().isEmpty()) throw new Exception("输入无效");
         return saleService.searchByCompany("%" + name + "%");
     }
 
