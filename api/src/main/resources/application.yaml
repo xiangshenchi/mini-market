@@ -17,9 +17,9 @@ spring:
       mail.smtp.ssl.enable: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql.sqlpub.com:3306/yunshu
-    username: lichun
-    password: PDRILjOGQbYV63ri
+    url: jdbc:mysql://mysql.sqlpub.com:3306/xieyang
+    username: mengsheng
+    password: Pl3UZpQcNqTIe2yo   
   jpa:
     hibernate:
       ddl-auto: update
