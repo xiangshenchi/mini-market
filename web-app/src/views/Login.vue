@@ -56,7 +56,7 @@ export default {
         password: '',
         email: '',
         code: '',
-        remember: false,
+        remember: true,
       },
     }
   },

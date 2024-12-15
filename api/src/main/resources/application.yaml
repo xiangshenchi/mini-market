@@ -1,5 +1,9 @@
 server:
   port: 8090
+
+file:
+  upload-dir: /root/GithubProjects/mini-market/web-app/src/assets/uploads
+
 spring:
   mail:
     host: smtp.qq.com
