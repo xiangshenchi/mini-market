@@ -3,7 +3,6 @@ package com.example.api.controller;
 import com.example.api.exception.AccountAndPasswordError;
 import com.example.api.model.dto.LoginDto;
 import com.example.api.model.entity.Admin;
-import com.example.api.model.entity.LoginLog;
 import com.example.api.model.enums.Role;
 import com.example.api.model.support.ResponseResult;
 import com.example.api.repository.AdminRepository;
@@ -40,11 +39,14 @@ public class AdminController {
 
     @GetMapping("exitsAdmin")
     public ResponseResult exitsAdmin(String email) {
-        Boolean flag=adminRepository.existsAdminByEmail(email);
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("邮箱不能为空");
+        }
+        Boolean flag = adminRepository.existsAdminByEmail(email);
         ResponseResult res = new ResponseResult();
-        if (flag){
+        if (flag) {
             res.setMsg("邮箱已注册");
-            } else {
+        } else {
             res.setMsg("邮箱未注册");
         }
         res.setStatus(flag);
@@ -58,9 +60,13 @@ public class AdminController {
 
     @PostMapping("/init")
     public Admin init(@RequestBody Admin admin) throws Exception {
+        if (admin == null || admin.getEmail() == null || admin.getEmail().trim().isEmpty()
+            ||admin.getPassword() == null || admin.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("管理员信息不能为空");
+        }
         admin.setRoles(Role.ROLE_SUPER_ADMIN.getValue());
         boolean exit = adminRepository.existsAdminByEmail(admin.getEmail());
-        if (exit)throw new Exception("邮箱已注册");
+        if (exit) throw new Exception("邮箱已注册");
         return adminService.save(admin);
     }
 
@@ -73,18 +79,29 @@ public class AdminController {
     @DeleteMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
     public void delete(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("ID不能为空");
+        }
         adminService.delete(id);
     }
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
     public Admin save(@RequestBody Admin admin) throws Exception {
+        if (admin == null || admin.getEmail() == null || admin.getEmail().trim().isEmpty()
+        ||admin.getPassword() == null || admin.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("管理员信息不能为空");
+        }
         return adminService.save(admin);
     }
 
     @PostMapping("/login")
     public Map<String, Object> loginByEmail(String type, @RequestBody LoginDto dto, HttpServletRequest request)
             throws Exception {
+        if (dto == null) {
+            throw new IllegalArgumentException("登录信息不能为空");
+        }
+
         Map<String, Object> map = new HashMap<>();
         Admin admin = null;
         String token = null;
@@ -104,6 +121,9 @@ public class AdminController {
 
     @GetMapping("/sendEmail")
     public ResponseResult sendEmail(String email) throws Exception {
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("邮箱不能为空");
+        }
         Boolean flag = adminService.sendEmail(email);
         ResponseResult res = new ResponseResult();
         if (flag) {
@@ -114,5 +134,4 @@ public class AdminController {
         res.setStatus(flag);
         return res;
     }
-
 }
