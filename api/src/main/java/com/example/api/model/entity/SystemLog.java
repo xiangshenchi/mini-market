@@ -1,11 +1,9 @@
 package com.example.api.model.entity;
 
-import com.example.api.model.enums.BusincessType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

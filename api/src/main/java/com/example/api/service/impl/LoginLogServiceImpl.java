@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,9 +33,9 @@ public class LoginLogServiceImpl implements LoginLogService {
         //获取浏览器版本
         loginLog.setBrowser(BrowserUtil.getBrower(request));
         loginLog.setIp(IpUtil.getIpAddr(request));
-        if (admin == null){
+        if (admin == null) {
             loginLog.setStatus(0);
-        }else {
+        } else {
             loginLog.setStatus(1);
         }
         //将日志记录写入数据库

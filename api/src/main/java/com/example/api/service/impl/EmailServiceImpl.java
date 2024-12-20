@@ -32,13 +32,13 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(email);
         //设置标题
         message.setSubject("智慧超市管理系统 - 登录验证码");
-        String value =  RandomUtil.next() ;
+        String value = RandomUtil.next();
         message.setText("欢迎使用智慧超市管理系统!\n" +
-                 "你的验证码为: \n" + value + " \n 15分钟内有效");
+                "你的验证码为: \n" + value + " \n 15分钟内有效");
 
         try {
             mailSender.send(message);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

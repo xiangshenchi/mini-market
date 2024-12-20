@@ -7,7 +7,6 @@ import com.example.api.repository.DriverRepository;
 import com.example.api.repository.VehicleRepository;
 import com.example.api.service.DistributionService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -28,13 +27,13 @@ public class DistributionController {
     @Resource
     private VehicleRepository vehicleRepository;
 
-    @Log(moudle = "配送管理",type = BusincessType.INSERT)
+    @Log(moudle = "配送管理", type = BusincessType.INSERT)
     @PostMapping("")
     public Distribution save(@RequestBody @Valid Distribution distribution) throws Exception {
         return distributionService.save(distribution);
     }
 
-    @Log(moudle = "配送管理",type = BusincessType.QUERY)
+    @Log(moudle = "配送管理", type = BusincessType.QUERY)
     @GetMapping("")
     public List<Distribution> findAll() {
         return distributionService.findAll();

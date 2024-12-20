@@ -2,6 +2,7 @@ package com.example.api.utils;
 
 import com.jthinking.common.util.ip.IPInfo;
 import com.jthinking.common.util.ip.IPInfoUtils;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class IpUtil {
@@ -34,8 +35,8 @@ public class IpUtil {
             if (IPV6_ADDRESS.equals(ip)) {
                 ip = LOOPBACK_ADDRESS;
             }
-             IPInfo ipInfo = IPInfoUtils.getIpInfo(ip);
-             return ipInfo.getAddress();
+            IPInfo ipInfo = IPInfoUtils.getIpInfo(ip);
+            return ipInfo.getAddress();
             // return ip;
         } catch (Exception e) {
             e.printStackTrace();

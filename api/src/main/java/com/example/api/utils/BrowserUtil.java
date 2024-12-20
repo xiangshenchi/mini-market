@@ -21,8 +21,7 @@ public class BrowserUtil {
         if (header.indexOf("Chrome") > 0)// 谷歌
         {
             browserVersion = "Chrome";
-        }
-        else if (header.indexOf("Safari") > 0)// safari
+        } else if (header.indexOf("Safari") > 0)// safari
         {
             browserVersion = "safari浏览器";
         }

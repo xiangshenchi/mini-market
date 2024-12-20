@@ -12,7 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -30,7 +29,8 @@ public class LogAspect {
         表明切点
      */
     @Pointcut("@annotation(com.example.api.annotation.Log)")
-    public void pt(){}
+    public void pt() {
+    }
 
     /*
        环绕通知
@@ -43,7 +43,7 @@ public class LogAspect {
         try {
             //执行方法
             res = point.proceed();
-        }finally {
+        } finally {
             //计算执行时长
             long time = System.currentTimeMillis() - beginTime;
             recordLog(point);
@@ -51,7 +51,7 @@ public class LogAspect {
         return res;
     }
 
-    private void recordLog(ProceedingJoinPoint point){
+    private void recordLog(ProceedingJoinPoint point) {
         //获取当前请求对象
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
@@ -66,7 +66,7 @@ public class LogAspect {
         systemLog.setIp(IpUtil.getIpAddr(request));
         systemLog.setTime(LocalDateTime.now());
         //获取方法的全路径
-        systemLog.setMethod(signature.getDeclaringTypeName()+"."+signature.getName());
+        systemLog.setMethod(signature.getDeclaringTypeName() + "." + signature.getName());
         //获取token,并解析token来获取当前账号
         String token = request.getHeader(JwtTokenUtil.TOKEN_HEADER);
         systemLog.setAccount(JwtTokenUtil.getUsername(token));

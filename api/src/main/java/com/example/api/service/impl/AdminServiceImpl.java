@@ -1,11 +1,8 @@
 package com.example.api.service.impl;
 
-import com.example.api.exception.AccountAndPasswordError;
 import com.example.api.model.dto.LoginDto;
 import com.example.api.model.entity.Admin;
-import com.example.api.model.entity.LoginLog;
 import com.example.api.repository.AdminRepository;
-import com.example.api.repository.LoginLogRepository;
 import com.example.api.service.AdminService;
 import com.example.api.service.EmailService;
 import com.example.api.utils.DataTimeUtil;
@@ -13,7 +10,6 @@ import com.example.api.utils.JwtTokenUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 @Service

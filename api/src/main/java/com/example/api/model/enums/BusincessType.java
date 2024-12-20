@@ -1,4 +1,5 @@
 package com.example.api.model.enums;
+
 /*
     业务操作类型
  */
@@ -11,9 +12,10 @@ public enum BusincessType {
     EXPORT("导出"), //导出
     FORCE("退出"); //强制退出
 
-    private BusincessType(String name){
-        this.name=name;
+    private BusincessType(String name) {
+        this.name = name;
     }
+
     private String name;
 
     public String getName() {

@@ -16,12 +16,12 @@ public final class ResponseUtil {
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         response.setContentType("application/json;charset=utf-8");
         response.setStatus(200);
-        try{
+        try {
             PrintWriter writer = response.getWriter();
             writer.write(JSON.toJSONString(o));
             writer.flush();
             writer.close();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

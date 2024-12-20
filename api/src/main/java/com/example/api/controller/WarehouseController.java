@@ -6,7 +6,6 @@ import com.example.api.model.enums.BusincessType;
 import com.example.api.service.WarehouseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -20,19 +19,19 @@ public class WarehouseController {
     @Resource
     private WarehouseService warehouseService;
 
-    @Log(moudle = "仓库管理",type = BusincessType.INSERT)
+    @Log(moudle = "仓库管理", type = BusincessType.INSERT)
     @PostMapping("")
     public Warehouse save(@RequestBody @Valid Warehouse warehouse) {
         return warehouseService.save(warehouse);
     }
 
-    @Log(moudle = "仓库管理",type = BusincessType.QUERY)
+    @Log(moudle = "仓库管理", type = BusincessType.QUERY)
     @GetMapping("")
     public List<Warehouse> findAll() {
         return warehouseService.findAll();
     }
 
-    @Log(moudle = "仓库管理",type = BusincessType.DELETE)
+    @Log(moudle = "仓库管理", type = BusincessType.DELETE)
     @DeleteMapping("")
     public void delete(String id) {
         warehouseService.delete(id);

@@ -28,7 +28,7 @@ public final class JwtTokenUtil {
 
     //检验token是否合法
     public static boolean checkToken(String token) {
-        if ("null".equals(token) || token == null || "".equals(token)){
+        if ("null".equals(token) || token == null || "".equals(token)) {
             System.out.println("token为空");
             return false;
         }
@@ -40,7 +40,7 @@ public final class JwtTokenUtil {
      */
     public static String createToken(String username, String[] roles, long expiration) {
         System.out.println("---------------------------");
-        System.out.println("username:"+username);
+        System.out.println("username:" + username);
         System.out.println("-----------------------");
         Map<String, Object> map = new HashMap<>();
         map.put(ROLE_CLAIMS, roles);
@@ -70,7 +70,9 @@ public final class JwtTokenUtil {
         return claims;
     }
 
-    /** 从Token中获取username */
+    /**
+     * 从Token中获取username
+     */
     public static String getUsername(String token) {
         System.out.println("----gettoken----");
         System.out.println(getTokenClaims(token));

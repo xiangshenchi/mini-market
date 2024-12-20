@@ -1,6 +1,5 @@
 package com.example.api.handler;
 
-import com.example.api.exception.AccountAndPasswordError;
 import com.example.api.model.support.ResponseResult;
 import com.example.api.service.LoginLogService;
 import org.slf4j.Logger;

@@ -3,12 +3,12 @@ package com.example.api.security;
 import com.example.api.model.support.ResponseResult;
 import com.example.api.utils.JwtTokenUtil;
 import com.example.api.utils.ResponseUtil;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,25 +34,25 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-            String requestURI = request.getRequestURI();
+        String requestURI = request.getRequestURI();
 
-            // 定义无需认证的路径
-            List<String> excludePaths = Arrays.asList("/api/admin/exitsAdmin","/api/upload/image");
+        // 定义无需认证的路径
+        List<String> excludePaths = Arrays.asList("/api/admin/exitsAdmin", "/api/upload/image");
 
-            // 检查当前请求路径是否需要跳过认证
-            for (String path : excludePaths) {
-                if (new AntPathMatcher().match(path, requestURI)) {
-                    chain.doFilter(request, response); // 直接放行
-                    return;
-                }
+        // 检查当前请求路径是否需要跳过认证
+        for (String path : excludePaths) {
+            if (new AntPathMatcher().match(path, requestURI)) {
+                chain.doFilter(request, response); // 直接放行
+                return;
             }
+        }
 
         //从Request Header 取出Token
         String token = request.getHeader(JwtTokenUtil.TOKEN_HEADER);
 
         //Token为空放行
         //如果接下来进入的URL不是公共的地址SpringSecurity会返回403的错误
-        if (!JwtTokenUtil.checkToken(token)){
+        if (!JwtTokenUtil.checkToken(token)) {
             chain.doFilter(request, response);
             return;
         }
@@ -72,7 +72,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
         //向SpringSecurity的Context中加入认证信息
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(username,null, roles));
+                new UsernamePasswordAuthenticationToken(username, null, roles));
 
         super.doFilterInternal(request, response, chain);
     }

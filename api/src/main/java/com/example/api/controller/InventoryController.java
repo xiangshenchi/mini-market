@@ -6,7 +6,6 @@ import com.example.api.model.vo.CommodityChartVo;
 import com.example.api.service.InventoryRecordService;
 import com.example.api.service.InventoryService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;

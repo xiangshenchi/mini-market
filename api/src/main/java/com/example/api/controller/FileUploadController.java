@@ -4,8 +4,10 @@ import com.example.api.model.support.ResponseResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -24,14 +26,14 @@ public class FileUploadController {
         // 检查文件是否为空
         if (file == null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body(new ResponseResult<>(HttpStatus.BAD_REQUEST.value(), "文件为空"));
+                    .body(new ResponseResult<>(HttpStatus.BAD_REQUEST.value(), "文件为空"));
         }
 
         // 检查文件类型
         String contentType = file.getContentType();
         if (!isValidImageType(contentType)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body(new ResponseResult<>(HttpStatus.BAD_REQUEST.value(), "不支持的文件类型: " + contentType));
+                    .body(new ResponseResult<>(HttpStatus.BAD_REQUEST.value(), "不支持的文件类型: " + contentType));
         }
 
         // 生成新的文件名
@@ -54,7 +56,7 @@ public class FileUploadController {
             file.transferTo(saveFile);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(new ResponseResult<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "文件上传失败: " + e.getMessage()));
+                    .body(new ResponseResult<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "文件上传失败: " + e.getMessage()));
         }
 
         // 返回成功响应
