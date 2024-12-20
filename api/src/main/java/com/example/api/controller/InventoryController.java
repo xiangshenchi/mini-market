@@ -6,8 +6,10 @@ import com.example.api.model.vo.CommodityChartVo;
 import com.example.api.service.InventoryRecordService;
 import com.example.api.service.InventoryService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -59,12 +61,12 @@ public class InventoryController {
     }
 
     @PostMapping("/in")
-    public InventoryRecord in(@RequestBody InventoryRecord record) throws Exception {
+    public InventoryRecord in(@RequestBody @Valid InventoryRecord record) throws Exception {
         return recordService.in(record);
     }
 
     @PostMapping("/out")
-    public InventoryRecord out(@RequestBody InventoryRecord record) throws Exception {
+    public InventoryRecord out(@RequestBody @Valid InventoryRecord record) throws Exception {
         return recordService.out(record);
     }
 

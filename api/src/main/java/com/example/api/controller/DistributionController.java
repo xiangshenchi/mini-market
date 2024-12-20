@@ -7,8 +7,10 @@ import com.example.api.repository.DriverRepository;
 import com.example.api.repository.VehicleRepository;
 import com.example.api.service.DistributionService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class DistributionController {
 
     @Log(moudle = "配送管理",type = BusincessType.INSERT)
     @PostMapping("")
-    public Distribution save(@RequestBody Distribution distribution) throws Exception {
+    public Distribution save(@RequestBody @Valid Distribution distribution) throws Exception {
         return distributionService.save(distribution);
     }
 

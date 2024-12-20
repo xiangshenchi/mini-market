@@ -6,8 +6,10 @@ import com.example.api.model.enums.BusincessType;
 import com.example.api.service.WarehouseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ public class WarehouseController {
 
     @Log(moudle = "仓库管理",type = BusincessType.INSERT)
     @PostMapping("")
-    public Warehouse save(@RequestBody Warehouse warehouse) {
+    public Warehouse save(@RequestBody @Valid Warehouse warehouse) {
         return warehouseService.save(warehouse);
     }
 

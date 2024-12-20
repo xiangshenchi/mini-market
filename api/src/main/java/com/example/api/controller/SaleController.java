@@ -4,8 +4,10 @@ import com.example.api.model.entity.Sale;
 import com.example.api.service.SaleService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,7 @@ public class SaleController {
     private SaleService saleService;
 
     @PostMapping("")
-    public Sale save(@RequestBody Sale sale) {
+    public Sale save(@RequestBody @Valid Sale sale) {
         return saleService.save(sale);
     }
 

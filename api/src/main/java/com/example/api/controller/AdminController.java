@@ -14,8 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -59,11 +61,7 @@ public class AdminController {
     }
 
     @PostMapping("/init")
-    public Admin init(@RequestBody Admin admin) throws Exception {
-        if (admin == null || admin.getEmail() == null || admin.getEmail().trim().isEmpty()
-            ||admin.getPassword() == null || admin.getPassword().trim().isEmpty()) {
-            throw new IllegalArgumentException("管理员信息不能为空");
-        }
+    public Admin init(@RequestBody @Valid Admin admin) throws Exception {
         admin.setRoles(Role.ROLE_SUPER_ADMIN.getValue());
         boolean exit = adminRepository.existsAdminByEmail(admin.getEmail());
         if (exit) throw new Exception("邮箱已注册");
@@ -87,21 +85,13 @@ public class AdminController {
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    public Admin save(@RequestBody Admin admin) throws Exception {
-        if (admin == null || admin.getEmail() == null || admin.getEmail().trim().isEmpty()
-        ||admin.getPassword() == null || admin.getPassword().trim().isEmpty()) {
-            throw new IllegalArgumentException("管理员信息不能为空");
-        }
+    public Admin save(@RequestBody @Valid Admin admin) throws Exception {
         return adminService.save(admin);
     }
 
     @PostMapping("/login")
-    public Map<String, Object> loginByEmail(String type, @RequestBody LoginDto dto, HttpServletRequest request)
+    public Map<String, Object> loginByEmail(String type, @RequestBody @Valid LoginDto dto, HttpServletRequest request)
             throws Exception {
-        if (dto == null) {
-            throw new IllegalArgumentException("登录信息不能为空");
-        }
-
         Map<String, Object> map = new HashMap<>();
         Admin admin = null;
         String token = null;

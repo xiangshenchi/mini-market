@@ -6,8 +6,10 @@ import com.example.api.model.enums.BusincessType;
 import com.example.api.service.CommodityService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ public class CommodityController {
 
     @Log(moudle = "商品管理",type = BusincessType.INSERT)
     @PostMapping("")
-    public Commodity save(@RequestBody Commodity commodity) {
+    public Commodity save(@RequestBody @Valid Commodity commodity) {
         return commodityService.save(commodity);
     }
 
@@ -32,7 +34,7 @@ public class CommodityController {
 
     @Log(moudle = "商品管理",type = BusincessType.UPDATE)
     @PutMapping("")
-    public void update(@RequestBody Commodity commodity) {
+    public void update(@RequestBody @Valid Commodity commodity) {
         commodityService.update(commodity);
     }
 

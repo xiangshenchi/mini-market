@@ -6,8 +6,10 @@ import com.example.api.model.enums.BusincessType;
 import com.example.api.service.EmployeeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,13 +34,13 @@ public class EmployeeController {
 
     @Log(moudle = "员工管理",type = BusincessType.INSERT)
     @PostMapping("")
-    public Employee save(@RequestBody Employee employee) {
+    public Employee save(@RequestBody @Valid Employee employee) {
         return employeeService.save(employee);
     }
 
     @Log(moudle = "员工管理",type = BusincessType.UPDATE)
     @PutMapping("")
-    public void update(@RequestBody Employee employee) {
+    public void update(@RequestBody @Valid Employee employee) {
         employeeService.update(employee);
     }
 

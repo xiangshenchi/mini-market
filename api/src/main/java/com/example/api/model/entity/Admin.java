@@ -9,15 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-/**
- * 管理员
- */
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Admin {
 
     @Id
@@ -26,13 +24,15 @@ public class Admin {
     private String id;
 
     @Column(columnDefinition = "varchar(30) default 'LTD' not null")
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "请输入有效的邮箱地址")
     private String email;
 
     @Column(columnDefinition = "varchar(30) default 'LTD' not null")
+    @NotBlank(message = "密码不能为空")
     private String password;
 
     private String roles;
 
     private String createAt;
-
 }

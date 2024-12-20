@@ -6,8 +6,10 @@ import com.example.api.model.entity.Vehicle;
 import com.example.api.model.enums.BusincessType;
 import com.example.api.service.VehicleService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +21,7 @@ public class VehicleController {
 
     @Log(moudle = "车辆管理",type = BusincessType.INSERT)
     @PostMapping("")
-    public Vehicle save(@RequestBody Vehicle vehicle) {
+    public Vehicle save(@RequestBody @Valid Vehicle vehicle) {
         return vehicleService.save(vehicle);
     }
 
