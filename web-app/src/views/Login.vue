@@ -69,18 +69,35 @@ export default {
 
   methods: {
 
-    sendEmail() {
-      if (this.checkEmail()) {
-        this.sendLoading = true
-        var that = this;
-        AdminSendEmail(this.form.email).then((res) => {
-          if (res.data.status) this.$message.success(res.data.msg)
-          else this.$message.error(res.data.msg)
-          that.sendLoading = false
-        })
+    // sendEmail() {
+    //   if (this.checkEmail()) {
+    //     this.sendLoading = true
+    //     var that = this;
+    //     AdminSendEmail(this.form.email).then((res) => {
+    //       if (res.data.status) this.$message.success(res.data.msg)
+    //       else this.$message.error(res.data.msg)
+    //       that.sendLoading = false
+    //     })
 
+    //   }
+    // },
+    async sendEmail() {
+      if (this.checkEmail()) {
+        this.sendLoading = true; // 设置加载状态为 true
+
+        try {
+          const res = await AdminSendEmail(this.form.email); // 使用 await 等待发送结果
+          if (res.data.status) {
+            this.$message.success(res.data.msg); // 邮件发送成功
+          } else {
+            this.$message.error(res.data.msg); // 邮件发送失败
+          }
+        } finally {
+          this.sendLoading = false; // 确保加载状态在结束时被重置
+        }
       }
     },
+
 
     submitLogin() {
       if (this.checkEmail()) {
@@ -122,7 +139,7 @@ export default {
 .login_container {
   width: 100%;
   height: 100vh;
-  background-image: url(../assets/back1.jpg);
+  background-image: url(../assets/back1.png);
   background-repeat: no-repeat;
   background-size: cover;
 

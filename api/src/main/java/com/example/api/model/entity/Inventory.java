@@ -35,7 +35,6 @@ public class Inventory {
     private String name;
 
     //所在位置区域
-    @NotBlank(message = "所在位置区域不能为空")
     private String location;
 
     //数量

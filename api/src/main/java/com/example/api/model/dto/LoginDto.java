@@ -15,7 +15,6 @@ public class LoginDto {
     @Email(message = "请输入有效的邮箱地址")
     private String email;
 
-    @NotBlank(message = "密码不能为空")
     private String password;
 
     private String code;
