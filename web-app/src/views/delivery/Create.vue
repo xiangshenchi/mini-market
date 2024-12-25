@@ -7,9 +7,10 @@
     </a-steps>
     <div class="steps-content">
       <div v-if="current === 0">
-        <a-form-model :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol" ref="formRef">
-          <a-form-model-item label="选择司机" prop="selectDriverIndex">
-            <a-select v-model="form.selectDriverIndex" placeholder="请选择配送司机">
+        <a-form-model :model="form" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }" ref="formRef"
+          style="max-width: 600px; margin: 0 auto;">
+          <a-form-model-item label="司机" prop="selectDriverIndex" style="margin-bottom: 8px;">
+            <a-select v-model="form.selectDriverIndex" placeholder="选择司机" style="width: 100%;">
               <a-select-option :value="index" v-for="(item, index) in drivers" :key="index" :disabled="item.driving">
                 {{ item.name }}
                 <i class="dis" v-if="item.driving">
@@ -20,8 +21,8 @@
             </a-select>
           </a-form-model-item>
 
-          <a-form-model-item label="选择运输车辆" prop="selectVehicleIndex">
-            <a-select v-model="form.selectVehicleIndex" placeholder="请选择配送车辆">
+          <a-form-model-item label="车辆" prop="selectVehicleIndex" style="margin-bottom: 8px;">
+            <a-select v-model="form.selectVehicleIndex" placeholder="选择车辆" style="width: 100%;">
               <a-select-option :value="index" v-for="(item, index) in vehicles" :key="index" :disabled="item.driving">
                 {{ item.type }} : {{ item.number }}
                 <i class="dis" v-if="item.driving">
@@ -32,46 +33,53 @@
             </a-select>
           </a-form-model-item>
 
-          <a-form-model-item label="预计交货时间" prop="time">
+          <a-form-model-item label="交货时间" prop="time" style="margin-bottom: 8px;">
             <a-date-picker v-model="form.time" show-time type="date" format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择日期" style="width: 100%;" />
           </a-form-model-item>
 
-          <a-form-model-item label="加急处理">
+          <a-form-model-item label="加急" style="margin-bottom: 8px;">
             <a-switch v-model="form.urgent" />
           </a-form-model-item>
 
-          <a-form-model-item label="注意事项" prop="cares">
+          <a-form-model-item label="注意事项" prop="cares" style="margin-bottom: 8px;">
             <a-checkbox-group v-model="form.cares">
-              <a-checkbox value="冰柜冷藏" name="type">冰柜冷藏</a-checkbox>
-              <a-checkbox value="注意易碎" name="type">注意易碎</a-checkbox>
-              <a-checkbox value="防止高温" name="type">防止高温</a-checkbox>
+              <a-checkbox value="冰柜冷藏" name="type">冰柜</a-checkbox>
+              <a-checkbox value="注意易碎" name="type">易碎</a-checkbox>
+              <a-checkbox value="防止高温" name="type">高温</a-checkbox>
             </a-checkbox-group>
           </a-form-model-item>
 
-          <a-form-model-item label="客户电话" prop="phone">
-            <a-input v-model="form.phone" />
+          <a-form-model-item label="公司电话" prop="phone" style="margin-bottom: 8px;">
+            <a-select v-model="form.phone" placeholder="选择电话" style="width: 100%;">
+              <a-select-option v-for="(item, index) in sales" :key="index" :value="index" :disabled="item.driving">
+                {{ item.phone }}
+                <i class="dis" v-if="item.driving">
+                  <a-icon type="close-circle" />
+                  正在途中
+                </i>
+              </a-select-option>
+            </a-select>
           </a-form-model-item>
 
-          <a-form-model-item label="客户地址" prop="address">
-            <a-input v-model="form.address" type="textarea" :rows="4" />
+          <a-form-model-item label="公司地址" prop="address" style="margin-bottom: 8px;">
+            <a-input v-model="form.address" type="textarea" :rows="3" style="width: 100%;" />
           </a-form-model-item>
 
           <a-form-model-item :wrapper-col="{ span: 14, offset: 6 }">
-            <a-button type="primary" @click="next">
+            <a-button type="primary" @click="next" style="width: 100%;">
               下一步
             </a-button>
           </a-form-model-item>
         </a-form-model>
-
       </div>
       <div v-if="current === 1" class="check">
         <p>送货司机： {{ form.driver }}</p>
         <p>车牌号码： {{ form.number }}</p>
         <p>加急处理： {{ form.urgent }}</p>
         <p>注意事项： {{ form.care }}</p>
-        <p>客户电话： {{ form.phone }}</p>
-        <p>客户地址： {{ form.address }}</p>
+        <p>合作公司电话： {{ form.phone }}</p>
+        <p>合作公司地址： {{ form.address }}</p>
         <p>预计送达： {{ form.time }}</p>
         <a-button type="danger" style="margin-right: 20px" :loading="loading" @click="submit">提交</a-button>
         <a-button @click="current = 0">上一步</a-button>
@@ -109,6 +117,7 @@ export default {
       selectVehicleIndex: 0,
       drivers: [],
       vehicles: [],
+      sales: [],
       form: {
         id: '',
         did: '',
@@ -133,16 +142,16 @@ export default {
         time: [
           { required: true, message: "请选择预计交货时间", trigger: "change" },
         ],
-        phone: [
-          { required: true, message: "请输入客户电话", trigger: "blur" },
-          {
-            pattern: /^1[3-9]\d{9}$/,
-            message: "请输入有效的手机号",
-            trigger: "blur",
-          },
-        ],
+        // phone: [
+        //   { required: true, message: "请输入合作公司电话", trigger: "blur" },
+        //   {
+        //     pattern: /^1[3-9]\d{9}$/,
+        //     message: "请输入有效的手机号",
+        //     trigger: "blur",
+        //   },
+        // ],
         address: [
-          { required: true, message: "请输入客户地址", trigger: "blur" },
+          { required: true, message: "请输入合作公司地址", trigger: "blur" },
         ],
       },
       drivers: [
@@ -159,6 +168,7 @@ export default {
       if (res.status) {
         this.drivers = res.data.drivers
         this.vehicles = res.data.vehicles
+        this.sales = res.data.sales
       }
       console.log(this.drivers)
       console.log(this.vehicles)
@@ -182,21 +192,20 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.$message.success("表单验证通过，进入下一步！");
-          let care = ''
-          for (let i = 0; i < this.form.cares.length; i++) {
-            care += this.form.cares[i] + ", "
-          }
-          this.form.driver = this.drivers[this.selectDriverIndex].name
-          this.form.did = this.drivers[this.selectDriverIndex].id
-          this.form.number = this.vehicles[this.selectVehicleIndex].number
-          this.form.vid = this.vehicles[this.selectVehicleIndex].id
-          this.form.care = care
-          this.current = 1
+
+          this.form.driver = this.drivers[this.selectDriverIndex].name;
+          this.form.did = this.drivers[this.selectDriverIndex].id;
+          this.form.number = this.vehicles[this.selectVehicleIndex].number;
+          this.form.vid = this.vehicles[this.selectVehicleIndex].id;
+          this.form.care = this.form.cares.join(", ");
+
+          this.current = 1;
         } else {
           this.$message.error("请修正表单中的错误！");
         }
       });
-    },
+    }
+    ,
     submit() {
       this.loading = true
       SaveDistribution(this.form).then((res) => {

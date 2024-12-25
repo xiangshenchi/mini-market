@@ -36,33 +36,52 @@
       </template>
     </a-table>
 
-    <a-modal title="新增员工" :visible="visible" @ok="submitForm" @cancel="closeModal" ok-text="提交" cancel-text="取消">
-      <a-form-model :model="form" :rules="rules" ref="ruleForm" label-col="{ span: 6 }" wrapper-col="{ span: 14 }">
-        <a-form-model-item label="姓名" prop="name">
-          <a-input v-model="form.name" placeholder="请输入司机姓名" />
-        </a-form-model-item>
-        <a-form-model-item label="身份证号" prop="idCard">
-          <a-input v-model="form.idCard" placeholder="请输入司机身份证信息" />
-        </a-form-model-item>
-        <a-form-model-item label="联系方式" prop="phone">
-          <a-input v-model="form.phone" placeholder="请输入手机号码" />
-        </a-form-model-item>
-        <a-form-model-item label="所在仓库" prop="department">
-          <a-select v-model="form.department" placeholder="请选择员工所在仓库">
-            <a-select-option v-for="(item, index) in warehouseList" :key="index" :value="item.name">
-              {{ item.name }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item label="性别" prop="gender">
-          <a-radio-group v-model="form.gender">
-            <a-radio value="男性">男性</a-radio>
-            <a-radio value="女性">女性</a-radio>
-          </a-radio-group>
-        </a-form-model-item>
-        <a-form-model-item label="家庭住址" prop="address">
-          <a-input v-model="form.address" type="textarea" />
-        </a-form-model-item>
+    <a-modal title="新增员工" :visible="visible" @ok="submitForm" @cancel="closeModal" ok-text="提交" cancel-text="取消"
+      :width="600">
+      <a-form-model :model="form" :rules="rules" ref="ruleForm" label-col="{ span: 5 }" wrapper-col="{ span: 18 }">
+        <a-row>
+          <a-col span="12">
+            <a-form-model-item label="姓名" prop="name">
+              <a-input class="input-small" v-model="form.name" placeholder="请输入员工姓名" />
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="身份证号" prop="idCard">
+              <a-input class="input-small" v-model="form.idCard" placeholder="请输入员工身份证信息" />
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row>
+          <a-col span="12">
+            <a-form-model-item label="联系方式" prop="phone">
+              <a-input class="input-small" v-model="form.phone" placeholder="请输入手机号码" />
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="所在仓库" prop="department">
+              <a-select v-model="form.department" placeholder="请选择员工所在仓库">
+                <a-select-option v-for="(item, index) in warehouseList" :key="index" :value="item.name">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row>
+          <a-col span="12">
+            <a-form-model-item label="性别" prop="gender">
+              <a-radio-group v-model="form.gender">
+                <a-radio value="男性">男性</a-radio>
+                <a-radio value="女性">女性</a-radio>
+              </a-radio-group>
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="家庭住址" prop="address">
+              <a-input v-model="form.address" type="textarea" />
+            </a-form-model-item>
+          </a-col>
+        </a-row>
       </a-form-model>
     </a-modal>
   </div>
@@ -84,7 +103,7 @@ const columns = [
     scopedSlots: { customRender: 'gender' },
   },
   {
-    title: '所在部门',
+    title: '所在仓库',
     dataIndex: 'department',
     scopedSlots: { customRender: 'department' },
   },

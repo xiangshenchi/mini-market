@@ -31,7 +31,7 @@ export default {
           icon: 'home',
           children: [
             { title: '商品管理', path: '/commodity' },
-            { title: '来往单位', path: '/company' },
+            { title: '合作公司', path: '/company' },
             { title: '员工管理', path: '/employee' },
             { title: '仓库管理', path: '/warehouse' },
           ]

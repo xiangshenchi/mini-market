@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-input-search placeholder="请输入公司名" enter-button="搜索" style="width: 400px;margin-bottom: 20px" size="large"
+    <a-input-search placeholder="请输入供应商名称" enter-button="搜索" style="width: 400px;margin-bottom: 20px" size="large"
       @search="onSearch" />
     <a-button style="margin-left: 10px" size="large" type="danger" @click="loadTableData">
       重置

@@ -4,6 +4,7 @@ import com.example.api.annotation.Log;
 import com.example.api.model.entity.Distribution;
 import com.example.api.model.enums.BusincessType;
 import com.example.api.repository.DriverRepository;
+import com.example.api.repository.SaleRepository;
 import com.example.api.repository.VehicleRepository;
 import com.example.api.service.DistributionService;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,8 @@ public class DistributionController {
 
     @Resource
     private VehicleRepository vehicleRepository;
+    @Resource
+    private SaleRepository saleRepository;
 
     @Log(moudle = "配送管理", type = BusincessType.INSERT)
     @PostMapping("")
@@ -44,6 +47,7 @@ public class DistributionController {
         Map<String, Object> map = new HashMap<>();
         map.put("drivers", driverRepository.findAll());
         map.put("vehicles", vehicleRepository.findAll());
+        map.put("sales", saleRepository.findAll());
         return map;
     }
 

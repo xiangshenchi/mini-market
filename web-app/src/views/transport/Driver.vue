@@ -36,47 +36,62 @@
       </template>
     </a-table>
 
-    <a-modal title="新增驾驶员" :visible="visible" @ok="submitForm" @cancel="close" ok-text="提交" cancel-text="取消">
-      <a-form-model :model="form" :rules="rules" ref="formRef">
-        <a-form-model-item label="姓名" prop="name">
-          <a-input v-model="form.name" placeholder="请输入司机姓名" />
-        </a-form-model-item>
-
-        <a-form-model-item label="身份证号" prop="idCard">
-          <a-input v-model="form.idCard" placeholder="请输入司机身份证信息" />
-        </a-form-model-item>
-
-        <a-form-model-item label="联系方式" prop="phone">
-          <a-input v-model="form.phone" placeholder="请输入手机号码" />
-        </a-form-model-item>
-
-        <a-form-item label="驾照信息">
-          <a-row :gutter="20">
-            <a-col :span="12">
-              <a-form-model-item prop="license">
-                <a-input v-model="form.license" addon-before="驾驶证" placeholder="请输入驾驶证号" />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="7">
-              <a-form-model-item prop="score">
-                <a-input-number v-model="form.score" addon-before="分数" :min="0" :max="12" placeholder="驾驶证分数" />
-              </a-form-model-item>
-            </a-col>
-          </a-row>
-        </a-form-item>
-
-        <a-form-model-item label="性别" prop="gender">
-          <a-radio-group v-model="form.gender">
-            <a-radio value="男性">男性</a-radio>
-            <a-radio value="女性">女性</a-radio>
-          </a-radio-group>
-        </a-form-model-item>
-
-        <a-form-model-item label="家庭住址" prop="address">
-          <a-input v-model="form.address" type="textarea" placeholder="请输入家庭住址" />
-        </a-form-model-item>
+    <a-modal title="新增驾驶员" :visible="visible" @ok="submitForm" @cancel="close" ok-text="提交" cancel-text="取消"
+      :width="500">
+      <a-form-model :model="form" :rules="rules" ref="formRef" label-col="{ span: 5 }" wrapper-col="{ span: 19 }">
+        <a-row :gutter="8">
+          <a-col span="12">
+            <a-form-model-item label="姓名" prop="name" style="margin-bottom: 8px;">
+              <a-input v-model="form.name" placeholder="请输入司机姓名" />
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="身份证号" prop="idCard" style="margin-bottom: 8px;">
+              <a-input v-model="form.idCard" placeholder="请输入司机身份证信息" />
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="8">
+          <a-col span="12">
+            <a-form-model-item label="联系方式" prop="phone" style="margin-bottom: 8px;">
+              <a-input v-model="form.phone" placeholder="请输入手机号码" />
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="性别" prop="gender" style="margin-bottom: 8px;">
+              <a-radio-group v-model="form.gender">
+                <a-radio value="男性">男性</a-radio>
+                <a-radio value="女性">女性</a-radio>
+              </a-radio-group>
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="8">
+          <a-col span="12">
+            <a-form-model-item label="驾照信息" style="margin-bottom: 8px;">
+              <a-row :gutter="10">
+                <a-col :span="12">
+                  <a-form-model-item prop="license" style="margin-bottom: 0;">
+                    <a-input v-model="form.license" addon-before="驾驶证" placeholder="请输入驾驶证号" />
+                  </a-form-model-item>
+                </a-col>
+                <a-col :span="11">
+                  <a-form-model-item prop="score" style="margin-bottom: 0;">
+                    <a-input-number v-model="form.score" addon-before="分数" :min="0" :max="12" placeholder="驾驶证分数" />
+                  </a-form-model-item>
+                </a-col>
+              </a-row>
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="家庭住址" prop="address" style="margin-bottom: 8px;">
+              <a-input v-model="form.address" type="textarea" placeholder="请输入家庭住址" style="resize: none;" />
+            </a-form-model-item>
+          </a-col>
+        </a-row>
       </a-form-model>
     </a-modal>
+
 
 
   </div>
