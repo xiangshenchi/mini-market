@@ -37,11 +37,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String requestURI = request.getRequestURI();
 
         // 定义无需认证的路径
-        List<String> excludePaths = Arrays.asList("/api/admin/exitsAdmin", "/api/upload/image");
+        List<String> excludePaths = Arrays.asList("/api/admin/exitsAdmin", "/api/upload/image","/api/admin/login");
 
         // 检查当前请求路径是否需要跳过认证
         for (String path : excludePaths) {
             if (new AntPathMatcher().match(path, requestURI)) {
+                System.out.println("登录之类的直接放行");
                 chain.doFilter(request, response); // 直接放行
                 return;
             }

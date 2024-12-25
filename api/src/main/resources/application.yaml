@@ -24,6 +24,11 @@ spring:
     url: jdbc:mysql://mysql.sqlpub.com:3306/xieyang
     username: mengsheng
     password: Pl3UZpQcNqTIe2yo
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/market_test
+#    username: root
+#    password: 123456789xsz
   jpa:
     hibernate:
       ddl-auto: update

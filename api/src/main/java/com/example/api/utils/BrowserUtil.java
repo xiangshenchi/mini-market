@@ -12,10 +12,10 @@ public class BrowserUtil {
     public static String getBrower(HttpServletRequest request) {
         String browserVersion = null;
         String header = request.getHeader("User-Agent");
-        if (header.equals("") || header == null)// 为空就默认为谷歌
+        if (header == null || header.equals("")  )// 为空就默认为谷歌
         {
             browserVersion = "谷歌浏览器";
-            return browserVersion;
+            return  null;
         }
 
         if (header.indexOf("Chrome") > 0)// 谷歌

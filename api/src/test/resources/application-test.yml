@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/market_test
+    username: root
+    password: 123456789xsz
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: UTF-8
+    # 发件人邮箱
+    username: 1483618794@qq.com
+    # QQ邮箱的授权码
+    password: igolqpbviwtujcec
+    # 使用465端口进行SSL加密
+    port: 465
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.enable: true
