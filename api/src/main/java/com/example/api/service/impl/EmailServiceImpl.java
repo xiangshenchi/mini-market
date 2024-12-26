@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 @Service
-public class EmailServiceImpl implements EmailService {
+public class  EmailServiceImpl implements EmailService {
 
     @Resource
     private CodeRepository codeRepository;
