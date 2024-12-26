@@ -92,15 +92,14 @@ public class AdminController {
             throws Exception {
         Map<String, Object> map = new HashMap<>();
         Admin admin = null;
-        String token = null;
-        System.out.println(type);
+        String token;
         try {
             admin = type.equals("email") ? adminService.loginByEmail(dto) : adminService.loginByPassword(dto);
-            System.out.println("异常点");
+            logger.info("Successful certification");
             token = adminService.createToken(admin,
                     dto.isRemember() ? JwtTokenUtil.REMEMBER_EXPIRATION_TIME : JwtTokenUtil.EXPIRATION_TIME);
         } catch (Exception e) {
-            throw new Exception("邮箱或密码错误1");
+            throw new Exception("邮箱或密码错误controller");
         } finally {
             loginLogService.recordLog(dto, admin, request);
         }

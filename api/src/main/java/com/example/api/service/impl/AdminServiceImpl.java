@@ -7,6 +7,8 @@ import com.example.api.service.AdminService;
 import com.example.api.service.EmailService;
 import com.example.api.utils.DataTimeUtil;
 import com.example.api.utils.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+    Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
     @Resource
     private AdminRepository adminRepository;
@@ -42,21 +45,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin loginByPassword(LoginDto dto) throws Exception {
-        System.out.println("正在寻找账号1");
-        System.out.println(dto);
-        Admin one= new Admin();
-
-        if("test_admin@test.com".equals(dto.getEmail())){
-            one.setPassword("123456");
-            one.setEmail("test_admin@test.com");
-            one.setRoles("ROLE_SUPER_ADMIN");
-            one.setId("819987ab-2b47-4e57-aabe-e1751d551ef1");
-        }else{
-            one = adminRepository.findAdminByEmailAndPassword(dto.getEmail(), dto.getPassword());
-        }
+        Admin one ;
+        one = adminRepository.findAdminByEmailAndPassword(dto.getEmail(), dto.getPassword());
         if (one == null) {
-            throw new Exception("用户名或密码错误");
+            logger.info("Server:User not found");
+            throw new Exception("用户名或密码错误Server");
         }
+        logger.info("Server:User found");
         return one;
     }
 

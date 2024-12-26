@@ -6,16 +6,14 @@ public class BrowserUtil {
     /**
      * 获取浏览器版本
      *
-     * @param request
-     * @return
      */
     public static String getBrower(HttpServletRequest request) {
         String browserVersion = null;
         String header = request.getHeader("User-Agent");
-        if (header == null || header.equals("")  )// 为空就默认为谷歌
+        if (header == null || header.isEmpty())// 为空就默认为谷歌
         {
             browserVersion = "谷歌浏览器";
-            return  null;
+            return  browserVersion;
         }
 
         if (header.indexOf("Chrome") > 0)// 谷歌

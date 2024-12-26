@@ -17,9 +17,15 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Commodity save(Commodity commodity) {
+        // 确保价格为正数
+        if (commodity.getPrice() <= 0) {
+            throw new IllegalArgumentException("价格必须为正数");
+        }
+
         commodity.setCreateAt(DataTimeUtil.getNowTimeString());
         return commodityRepository.save(commodity);
     }
+
 
     @Override
     public void update(Commodity commodity) {

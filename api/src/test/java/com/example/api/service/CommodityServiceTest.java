@@ -39,15 +39,31 @@ public class CommodityServiceTest {
         assertEquals("测试商品", saved.getName());
         assertNotNull(saved.getCreateAt());
     }
-    
+
     @Test
-    @DisplayName("测试添加商品-价格为负数")
-    void testSaveCommodityWithNegativePrice() {
-        testCommodity.setPrice(-1.0);
-        assertThrows(ConstraintViolationException.class, () -> {
-            commodityService.save(testCommodity);
+    public void testSave_WithNegativePrice() {
+        Commodity commodity = new Commodity();
+        commodity.setPrice(-10.0); // 设置负价格
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            commodityService.save(commodity);
         });
+
+        assertEquals("价格必须为正数", exception.getMessage());
     }
+    @Test
+    public void testSave_WithZeroPrice() {
+        Commodity commodity = new Commodity();
+        commodity.setPrice(0.0); // 设置零价格
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            commodityService.save(commodity);
+        });
+
+        assertEquals("价格必须为正数", exception.getMessage());
+    }
+
+
     
     @Test
     @DisplayName("测试商品查询")

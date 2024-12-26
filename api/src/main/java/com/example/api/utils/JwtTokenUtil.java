@@ -4,9 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public final class JwtTokenUtil {
     //在request的header中的名字
@@ -28,11 +29,25 @@ public final class JwtTokenUtil {
 
     //检验token是否合法
     public static boolean checkToken(String token) {
-        if ("null".equals(token) || token == null || "".equals(token)) {
-            System.out.println("token为空");
-            return false;
+        // 使用 Logger 记录日志
+        Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
+
+        // 检查 token 是否为 null、空字符串或 "null"
+        if (token == null || token.isEmpty() || "null".equals(token)) {
+            logger.warn("Token is invalid: token is null or empty."); // 记录警告日志
+            return false; // 返回 false，表示 token 无效
         }
-        return token.startsWith(PREFIX);
+
+        // 检查 token 是否以预定义的前缀开始
+        boolean isValid = token.startsWith(PREFIX); // 判断 token 是否有效
+
+        if (isValid) {
+            logger.info("Token is valid and starts with the expected prefix."); // 记录成功日志
+        } else {
+            logger.warn("Token is invalid: does not start with the expected prefix."); // 记录无效日志
+        }
+
+        return isValid; // 返回 token 是否有效
     }
 
     /**
@@ -65,10 +80,17 @@ public final class JwtTokenUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            e.printStackTrace();
+            // 记录 Token 过期的日志
+            Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
+            logger.warn("Token has expired: {}", e.getMessage());
+        } catch (Exception e) {
+            // 处理其他解析异常
+            Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
+            logger.error("Failed to parse token: {}", e.getMessage());
         }
         return claims;
     }
+
 
     /**
      * 从Token中获取username
@@ -102,9 +124,18 @@ public final class JwtTokenUtil {
     /**
      * 校验Token是否过期
      */
+    /**
+     * 校验Token是否过期
+     */
     public static boolean isExpiration(String token) {
-        return getTokenClaims(token).getExpiration().before(new Date());
+        Claims claims = getTokenClaims(token);
+        if (claims == null) {
+            // Token 解析失败，可能是过期或其他原因
+            return true; // 返回 true，表示 Token 已过期
+        }
+        return claims.getExpiration().before(new Date());
     }
+
 
 }
 
