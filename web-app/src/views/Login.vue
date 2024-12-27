@@ -2,6 +2,7 @@
   <div class="login_container">
     <div class="login-box">
       <div>
+        <img class="logo" src="../assets/logo.png" alt="Logo">
 
         <div class="title">智慧超市管理系统</div>
         <a-tabs @change="tabClick" default-active-key="1" :tabBarStyle="{ textAlign: 'center' }">
@@ -139,7 +140,7 @@ export default {
 .login_container {
   width: 100%;
   height: 100vh;
-  background-image: url(../assets/back1.png);
+  background-image: url(../assets/back2.png);
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -172,10 +173,14 @@ export default {
 }
 
 .logo {
-  width: 44px;
+  /* width: 44px;
   height: 44px;
   margin-right: 20px;
-  margin-left: 43px;
+  margin-left: 43px; */
+  width: 300px; /* 根据需要调整宽度 */
+  height: auto; /* 保持图片比例 */
+  display: block;
+  margin: 0 auto ; /* 添加上下外边距 */
 }
 
 .ant-tabs-nav {
@@ -191,11 +196,12 @@ export default {
 }
 
 .title {
-  color: rgb(227, 230, 237);
-  padding-top: 15px;
+  color: rgb(255, 255, 255);
+  padding-top: 0px;
   padding-bottom: 35px;
-  font-size: 17px;
+  font-size: 25px;
   text-align: center;
+  font-weight: bold;
 }
 
 .input {

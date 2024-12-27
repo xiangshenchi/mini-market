@@ -1,7 +1,8 @@
 <template>
   <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }" width="220">
     <div class="logo">
-      智慧超市管理系统
+      <img src="../assets/favicon.png" alt="Logo"></img>
+      超市管理系统
     </div>
     <a-menu theme="dark" mode="inline">
       <a-sub-menu v-for="(item, index) in menus" :key="index">
@@ -98,6 +99,7 @@ export default {
   padding: 10px 15px;
   height: 50px;
   font-size: 15px;
+  font-weight: bold;
   margin: 16px;
   color: #ffffff;
   letter-spacing: 2px;
@@ -108,8 +110,8 @@ export default {
 }
 
 .logo img {
-  width: 32px;
-  height: 32px;
-  margin-right: 5px;
+  width: 25px; /* 根据需要调整宽度 */
+  height: auto; /* 保持图片比例 */
+  margin-right: 0px;
 }
 </style>
