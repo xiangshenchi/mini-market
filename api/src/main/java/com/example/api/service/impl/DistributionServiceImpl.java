@@ -27,7 +27,7 @@ public class DistributionServiceImpl implements DistributionService {
 
     @Override
     public Distribution save(Distribution distribution) throws Exception {
-        if (distributionRepository.findById(distribution.getId()).isEmpty()) {
+        if (distributionRepository.findById(distribution.getId()) == null) {
             Optional<Driver> driver = driverRepository.findById(distribution.getDid());
             Optional<Vehicle> vehicle = vehicleRepository.findById(distribution.getVid());
 //            if (driver.isEmpty() || vehicle.isEmpty()) throw new Exception("请求参数错误");
