@@ -65,7 +65,7 @@ public class InventoryRecordServiceImpl implements InventoryRecordService {
         if (inventory.getCount() < record.getCount()) throw new Exception("出库失败，库存数量不足");
 
         Optional<Commodity> optional = commodityRepository.findById(record.getCid());
-        if (optional == null) {
+        if (optional.isEmpty()) {
             throw new Exception("不存在的商品id");
         }
         Commodity commodity = optional.get();
@@ -82,7 +82,7 @@ public class InventoryRecordServiceImpl implements InventoryRecordService {
     @Override
     public InventoryRecord in(InventoryRecord record) throws Exception {
         Optional<Commodity> optional = commodityRepository.findById(record.getCid());
-        if (optional == null) {
+        if (optional.isEmpty()) {
             throw new Exception("不存在的商品id");
         }
         Commodity commodity = optional.get();

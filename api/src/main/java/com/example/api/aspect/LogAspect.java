@@ -39,7 +39,7 @@ public class LogAspect {
     public Object Around(ProceedingJoinPoint point) throws Throwable {
         //记录开始时间
         long beginTime = System.currentTimeMillis();
-        Object res = null;
+        Object res;
         try {
             //执行方法
             res = point.proceed();
@@ -54,7 +54,10 @@ public class LogAspect {
     private void recordLog(ProceedingJoinPoint point) {
         //获取当前请求对象
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = requestAttributes.getRequest();
+        HttpServletRequest request = null;
+        if (requestAttributes != null) {
+            request = requestAttributes.getRequest();
+        }
         //获取目标方法签名
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();

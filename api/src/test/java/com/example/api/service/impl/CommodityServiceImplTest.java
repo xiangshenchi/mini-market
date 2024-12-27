@@ -1,8 +1,7 @@
-package com.example.api.service;
+package com.example.api.service.impl;
 
 import com.example.api.model.entity.Commodity;
 import com.example.api.repository.CommodityRepository;
-import com.example.api.service.impl.CommodityServiceImpl;
 import com.example.api.utils.DataTimeUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,9 +35,7 @@ public class CommodityServiceImplTest {
         Commodity commodity = new Commodity();
         commodity.setPrice(-10.0); // 设置负价格
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            commodityService.save(commodity);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> commodityService.save(commodity));
 
         assertEquals("价格必须为正数", exception.getMessage());
     }
@@ -48,9 +45,7 @@ public class CommodityServiceImplTest {
         Commodity commodity = new Commodity();
         commodity.setPrice(0.0); // 设置零价格
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            commodityService.save(commodity);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> commodityService.save(commodity));
 
         assertEquals("价格必须为正数", exception.getMessage());
     }

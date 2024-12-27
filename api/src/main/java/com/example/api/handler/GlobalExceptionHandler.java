@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.annotation.Resource;
+
 /**
  * 捕获controller异常
  * controller抛出异常执行下边的函数
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @ResponseBody
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @Autowired
+    @Resource
     private LoginLogService loginLogService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
