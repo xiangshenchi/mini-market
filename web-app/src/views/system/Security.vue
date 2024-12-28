@@ -7,40 +7,32 @@
         <a-button class="btn" @click="passwordVisible = true" type="link">修改</a-button>
         <p class="des">账号密码： {{ show ? this.$store.state.user.details.password : '********' }}
           <a @click="show = !show" style="padding-left: 10px">
-            <a-icon :type="!show ? 'eye' : 'eye-invisible' "/>
+            <a-icon :type="!show ? 'eye' : 'eye-invisible'" />
           </a>
         </p>
-        <a-divider/>
+        <a-divider />
       </div>
       <div>
         <a class="item-title" type="link">绑定邮箱</a>
         <a-button class="btn" @click="emailVisible = true" type="link">修改</a-button>
         <p class="des">已绑定邮箱： {{ this.$store.state.user.details.email }}</p>
-        <a-divider/>
+        <a-divider />
       </div>
     </a-spin>
 
-    <a-modal
-        title="密码修改"
-        :visible="passwordVisible"
-        @ok="submit"
-        @cancel="passwordVisible = false"
-    >
+    <a-modal title="密码修改" :visible="passwordVisible" @ok="submit" @cancel="passwordVisible = false" ok-text="确定"
+      cancel-text="我再想想">
       <a-form-model :model="admin">
         <a-form-model-item label="密码">
-          <a-input v-model="admin.password"/>
+          <a-input v-model="admin.password" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
-    <a-modal
-        title="邮箱修改"
-        :visible="emailVisible"
-        @ok="submit"
-        @cancel="emailVisible = false"
-    >
+    <a-modal title="邮箱修改" :visible="emailVisible" @ok="submit" @cancel="emailVisible = false" ok-text="确定"
+      cancel-text="我再想想">
       <a-form-model :model="admin">
         <a-form-model-item label="绑定邮箱">
-          <a-input v-model="admin.email"/>
+          <a-input v-model="admin.email" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
@@ -48,7 +40,7 @@
 </template>
 
 <script>
-import {SaveAdmin} from "@/api/admin";
+import { SaveAdmin } from "@/api/admin";
 
 export default {
   name: "Me",

@@ -278,7 +278,7 @@ export default {
     },
     confirm(id) {
       DeleteEmployeeById(id).then((res) => {
-        if (res.status) this.$message.success('Delete success');
+        if (res.status) this.$message.success('员工信息删除成功');
         this.loadTableData()
       })
     },

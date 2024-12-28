@@ -1,5 +1,7 @@
 package com.example.api.controller;
 
+import com.example.api.exception.InvalidCredentialsException;
+import com.example.api.exception.VerificationCodeException;
 import com.example.api.model.dto.LoginDto;
 import com.example.api.model.entity.Admin;
 import com.example.api.model.enums.Role;
@@ -11,8 +13,10 @@ import com.example.api.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -95,12 +99,19 @@ public class AdminController {
         String token;
         try {
             admin = type.equals("email") ? adminService.loginByEmail(dto) : adminService.loginByPassword(dto);
-            logger.info("Successful certification");
-            token = adminService.createToken(admin,
-                    dto.isRemember() ? JwtTokenUtil.REMEMBER_EXPIRATION_TIME : JwtTokenUtil.EXPIRATION_TIME);
+            logger.info("认证成功");
+            token = adminService.createToken(admin, dto.isRemember() ? JwtTokenUtil.REMEMBER_EXPIRATION_TIME : JwtTokenUtil.EXPIRATION_TIME);
+        } catch (InvalidCredentialsException e) {
+            logger.warn("无效的登录尝试: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "无效的电子邮件或密码");
+        } catch (VerificationCodeException e) {
+            logger.warn("验证码错误: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "无效的验证码");
         } catch (Exception e) {
-            throw new Exception("邮箱或密码错误controller");
-        } finally {
+            logger.error("登录过程中发生意外错误: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "登录过程中发生错误");
+        }
+        finally {
             loginLogService.recordLog(dto, admin, request);
         }
         map.put("admin", admin);

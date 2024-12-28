@@ -34,7 +34,8 @@
       </span>
     </a-table>
 
-    <a-modal title="添加操作员" :visible="addVisible" @ok="submit" @cancel="addVisible = false">
+    <a-modal title="添加操作员" :visible="addVisible" @ok="submit" @cancel="addVisible = false" ok-text="确定"
+      cancel-text="我再想想">
       <a-form-model :model="selectAdmin">
         <a-form-model-item label="邮箱">
           <a-input v-model="selectAdmin.email" />
@@ -45,7 +46,8 @@
       </a-form-model>
     </a-modal>
 
-    <a-modal title="密码修改" :visible="passwordVisible" @ok="submit" @cancel="passwordVisible = false">
+    <a-modal title="密码修改" :visible="passwordVisible" @ok="submit" @cancel="passwordVisible = false" ok-text="确定"
+      cancel-text="我再想想">
       <a-form-model :model="selectAdmin">
         <a-form-model-item label="密码">
           <a-input v-model="selectAdmin.password" />
@@ -53,7 +55,8 @@
       </a-form-model>
     </a-modal>
 
-    <a-modal title="邮箱修改" :visible="emailVisible" @ok="submit" @cancel="emailVisible = false">
+    <a-modal title="邮箱修改" :visible="emailVisible" @ok="submit" @cancel="emailVisible = false" ok-text="确定"
+      cancel-text="我再想想">
       <a-form-model :model="selectAdmin">
         <a-form-model-item label="绑定邮箱">
           <a-input v-model="selectAdmin.email" />
@@ -61,7 +64,8 @@
       </a-form-model>
     </a-modal>
 
-    <a-modal title="权限修改" width="500px" :visible="rolesVisible" @ok="submitRoles" @cancel="rolesVisible = false">
+    <a-modal title="权限修改" width="500px" :visible="rolesVisible" @ok="submitRoles" @cancel="rolesVisible = false"
+      ok-text="确定" cancel-text="我再想想">
       <a-select v-model="selectRoles" mode="multiple" style="width: 100%" placeholder="select one country"
         option-label-prop="label">
         <a-select-option :value="item.value" :label="item.value" v-for="(item, index) in roles" :key="index">

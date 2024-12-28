@@ -2,7 +2,7 @@
   <div class="main">
     <div class="header">
       <router-link to="/warehouse">
-        <a-icon type="arrow-left" style="padding-right: 5px"/>
+        <a-icon type="arrow-left" style="padding-right: 5px" />
         返回上一页
       </router-link>
     </div>
@@ -13,37 +13,28 @@
       <a-button class="editable-btn" @click="handleSubmit('out')">
         出库商品
       </a-button>
-      <download-excel
-          class="export-excel-wrapper"
-          :data="data"
-          :fields="json_fields"
-          name="库存报表.xls">
+      <download-excel class="export-excel-wrapper" :data="data" :fields="json_fields" name="库存报表.xls">
         <a-button class="editable-btn">
-          <a-icon type="cloud-download"/>
+          <a-icon type="cloud-download" />
           下载库存报表 Excel
         </a-button>
       </download-excel>
       <a-button class="editable-btn" @click="recordVisible = true">
-        <a-icon type="retweet"/>
+        <a-icon type="retweet" />
         出入库记录 Excel
       </a-button>
     </div>
 
     <a-table :loading="loading" :columns="columns" :data-source="data" rowKey="id">
       <a slot="name" slot-scope="text">{{ text }}</a>
-      <span slot="customTitle"><a-icon type="smile-o"/> 商品名</span>
+      <span slot="customTitle"><a-icon type="smile-o" /> 商品名</span>
       <span slot="count" slot-scope="count">
         <a-tag color="#108ee9">{{ count }}</a-tag>
       </span>
     </a-table>
 
-    <a-modal
-        title="入库 ｜ 出库"
-        :closable="false"
-        :visible="visible"
-        @ok="submit"
-        @cancel="visible = false"
-    >
+    <a-modal title="入库 ｜ 出库" :closable="false" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="提交"
+      cancel-text="取消">
       <a-form-model :model="form">
         <a-form-model-item label="请选商品">
           <a-select v-model="selectIndex" placeholder="请选择入库的商品">
@@ -53,30 +44,24 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="商品数量">
-          <a-input-number id="inputNumber" v-model="form.count" :min="1"/>
+          <a-input-number id="inputNumber" v-model="form.count" :min="1" />
         </a-form-model-item>
         <a-form-model-item label="备注">
-          <a-input :rows="4" v-model="form.description" type="textarea"/>
+          <a-input :rows="4" v-model="form.description" type="textarea" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
 
-    <a-modal
-        title="出入库记录"
-        width="80%"
-        :visible="recordVisible"
-        :footer="null"
-        @cancel="recordVisible = false"
-    >
-      <InventoryRecords :warehouse-id="id"/>
+    <a-modal title="出入库记录" width="80%" :visible="recordVisible" :footer="null" @cancel="recordVisible = false">
+      <InventoryRecords :warehouse-id="id" />
     </a-modal>
 
   </div>
 </template>
 
 <script>
-import {FindAllCommodity} from "../../api/commodity";
-import {FindAllInventory, InAndOut} from "../../api/inventory";
+import { FindAllCommodity } from "../../api/commodity";
+import { FindAllInventory, InAndOut } from "../../api/inventory";
 import InventoryRecords from "../../components/InventoryRecords";
 
 const columns = [
@@ -89,20 +74,20 @@ const columns = [
   {
     dataIndex: 'name',
     key: 'name',
-    slots: {title: 'customTitle'},
-    scopedSlots: {customRender: 'name'},
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'name' },
   },
   {
     title: '库存数量',
     dataIndex: 'count',
     key: 'count',
-    scopedSlots: {customRender: 'count'},
+    scopedSlots: { customRender: 'count' },
   },
 ];
 
 export default {
 
-  components: {InventoryRecords},
+  components: { InventoryRecords },
 
   data() {
     return {
@@ -154,10 +139,10 @@ export default {
       this.submitType = type
       this.visible = true
     },
-    beforeRouteEnter (to, from, next) {
+    beforeRouteEnter(to, from, next) {
       // ...
     },
-    beforeRouteLeave (to, from, next) {
+    beforeRouteLeave(to, from, next) {
       // ...
     },
 

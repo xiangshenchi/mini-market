@@ -19,14 +19,14 @@
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a @click="() => save(record.id, index)">保存</a>
-            <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.id)">
+            <a-popconfirm title="你确认取消吗" ok-text="确定" cancel-text="我再想想" @confirm="() => cancel(record.id)">
               <a>取消</a>
             </a-popconfirm>
           </span>
           <span v-else>
             <a :disabled="editingKey !== ''" @click="() => edit(record.id)">编辑</a>
           </span>
-          <a-popconfirm placement="top" ok-text="Yes" cancel-text="No" @confirm="confirm(record.id)">
+          <a-popconfirm placement="top" ok-text="确定" cancel-text="我再想想" @confirm="confirm(record.id)">
             <template slot="title">
               <p> 删除驾驶员信息后将无法恢复，确定要删除吗？ </p>
             </template>
@@ -292,7 +292,7 @@ export default {
     },
     confirm(id) {
       DeleteDriverById(id).then((res) => {
-        if (res.status) this.$message.success('Delete success');
+        if (res.status) this.$message.success('删除成功');
         this.loadTableData()
       })
     },

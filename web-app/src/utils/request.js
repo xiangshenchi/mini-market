@@ -4,8 +4,8 @@ import router from '../router/index'
 
 var token = localStorage.getItem("token")
 var service = request.create({
-    // baseURL: 'http://111.170.11.164:10600/api',
-    baseURL: 'http://localhost:8090/api',
+    baseURL: 'http://111.170.11.164:10600/api',
+    // baseURL: 'http://localhost:8090/api',
     timeout: 50000
 });
 

@@ -50,14 +50,10 @@
             </a-checkbox-group>
           </a-form-model-item>
 
-          <a-form-model-item label="公司电话" prop="phone" style="margin-bottom: 8px;">
-            <a-select v-model="form.phone" placeholder="选择电话" style="width: 100%;">
-              <a-select-option v-for="(item, index) in sales" :key="index" :value="index" :disabled="item.driving">
+          <a-form-model-item label="公司电话" prop="selectPhoneIndex" style="margin-bottom: 8px;">
+            <a-select v-model="form.selectPhoneIndex" placeholder="选择电话" style="width: 100%;">
+              <a-select-option v-for="(item, index) in sales" :key="index" :value="index">
                 {{ item.phone }}
-                <i class="dis" v-if="item.driving">
-                  <a-icon type="close-circle" />
-                  正在途中
-                </i>
               </a-select-option>
             </a-select>
           </a-form-model-item>
@@ -115,6 +111,7 @@ export default {
       current: 0,
       selectDriverIndex: 0,
       selectVehicleIndex: 0,
+      selectPhoneIndex: 0,
       drivers: [],
       vehicles: [],
       sales: [],
@@ -142,14 +139,9 @@ export default {
         time: [
           { required: true, message: "请选择预计交货时间", trigger: "change" },
         ],
-        // phone: [
-        //   { required: true, message: "请输入合作公司电话", trigger: "blur" },
-        //   {
-        //     pattern: /^1[3-9]\d{9}$/,
-        //     message: "请输入有效的手机号",
-        //     trigger: "blur",
-        //   },
-        // ],
+        phone: [
+          { required: true, message: "请输入合作公司电话", trigger: "blur" },
+        ],
         address: [
           { required: true, message: "请输入合作公司地址", trigger: "blur" },
         ],
@@ -192,9 +184,9 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.$message.success("表单验证通过，进入下一步！");
-
           this.form.driver = this.drivers[this.selectDriverIndex].name;
           this.form.did = this.drivers[this.selectDriverIndex].id;
+          this.form.phone = this.sales[this.form.selectPhoneIndex].phone;
           this.form.number = this.vehicles[this.selectVehicleIndex].number;
           this.form.vid = this.vehicles[this.selectVehicleIndex].id;
           this.form.care = this.form.cares.join(", ");

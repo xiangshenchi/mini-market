@@ -1,5 +1,7 @@
 package com.example.api.service.impl;
 
+import com.example.api.exception.InvalidCredentialsException;
+import com.example.api.exception.VerificationCodeException;
 import com.example.api.model.dto.LoginDto;
 import com.example.api.model.entity.Admin;
 import com.example.api.repository.AdminRepository;
@@ -49,7 +51,7 @@ public class AdminServiceImpl implements AdminService {
         one = adminRepository.findAdminByEmailAndPassword(dto.getEmail(), dto.getPassword());
         if (one == null) {
             logger.info("Server:User not found");
-            throw new Exception("用户名或密码错误Server");
+            throw new InvalidCredentialsException("用户名或密码错误Server");
         }
         logger.info("Server:User found");
         return one;
@@ -58,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin loginByEmail(LoginDto dto) throws Exception {
         boolean status = emailService.checkVerificationCode(dto.getEmail(), dto.getCode());
-        if (!status) throw new Exception("验证码错误");
+        if (!status) throw new VerificationCodeException("验证码错误");
         return adminRepository.findAdminByEmail(dto.getEmail());
     }
 

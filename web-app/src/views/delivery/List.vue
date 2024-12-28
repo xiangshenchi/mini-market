@@ -19,7 +19,7 @@
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a @click="() => save(record.id, index)">保存</a>
-            <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.id)">
+            <a-popconfirm title="你确认取消吗" ok-text="确定" cancel-text="我再想想" @confirm="() => cancel(record.id)">
               <a>取消</a>
             </a-popconfirm>
           </span>
@@ -85,7 +85,7 @@
           <a-button @click="visible2 = false">不通过</a-button>
         </div>
         <div v-if="select.status === 1">
-          <a-result status="success" title="Successfully passed the audit!">
+          <a-result status="success" title="顺利通过审核!">
             <template #extra>
               <a-button @click="service" key="console" type="primary">
                 已送达目的地
