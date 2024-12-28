@@ -23,7 +23,7 @@ public class Vehicle {
     private String id;
 
     //车牌号
-    @NotBlank(message = "仓库名称不能为空")
+    @NotBlank(message = "车牌号不能为空")
     private String number;
 
     //车辆类型

@@ -4,39 +4,30 @@
       <a-row :gutter="20">
         <a-col :span="8" class="item">
           <a-card hoverable class="add-item" @click="visible = true">
-            <a-icon type="plus"/>
+            <a-icon type="plus" />
             添加车辆
           </a-card>
         </a-col>
         <a-col :span="8" v-for="(item, index) in this.data" :key="index" class="item">
           <a-card hoverable>
-<!--            <template slot="actions" class="ant-card-actions">-->
-<!--              <a-tag :color=" item.driving ? 'orange': 'green'">{{ item.driving ? '正在途中' : '正在休息' }}</a-tag>-->
-<!--              <span>使用记录</span>-->
-<!--            </template>-->
-            <a-card-meta
-                :title="'车牌号：' + item.number"
-                :description="'ID: ' + item.id">
-              <a-badge :number-style="{ backgroundColor: '#52c41a' }"
-                       slot="avatar"
-                       :count="item.type"
-                       :offset="[-80,10]">
-                <img class="image" :src="require('../../assets/' +item.type+'.svg')" alt=""/>
+            <!--            <template slot="actions" class="ant-card-actions">-->
+            <!--              <a-tag :color=" item.driving ? 'orange': 'green'">{{ item.driving ? '正在途中' : '正在休息' }}</a-tag>-->
+            <!--              <span>使用记录</span>-->
+            <!--            </template>-->
+            <a-card-meta :title="'车牌号：' + item.number" :description="'ID: ' + item.id">
+              <a-badge :number-style="{ backgroundColor: '#52c41a' }" slot="avatar" :count="item.type"
+                :offset="[-80, 10]">
+                <img class="image" :src="require('../../assets/' + item.type + '.svg')" alt="" />
               </a-badge>
             </a-card-meta>
           </a-card>
         </a-col>
       </a-row>
     </a-spin>
-    <a-modal
-        title="新增仓库"
-        :visible="visible"
-        @ok="submit"
-        @cancel="visible = false"
-    >
+    <a-modal title="新增车辆" :visible="visible" @ok="submit" @cancel="visible = false" ok-text="确定" cancel-text="取消">
       <a-form-model :model="form">
         <a-form-model-item label="车牌号码">
-          <a-input v-model="form.number"/>
+          <a-input v-model="form.number" />
         </a-form-model-item>
         <a-form-model-item label="车辆类型">
           <a-select v-model="form.type">
@@ -52,7 +43,7 @@
 
 <script>
 
-import {FindAllVehicle, SaveVehicle} from "@/api/vehicle";
+import { FindAllVehicle, SaveVehicle } from "@/api/vehicle";
 
 export default {
   name: "WareHouse",
