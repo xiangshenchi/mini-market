@@ -19,4 +19,5 @@ public interface DriverRepository extends JpaRepository<Driver, String> {
 
     List<Driver> findAllByDriving(boolean driving);
 
+    boolean existsDriverByIdCardOrLicense(String idCard, String license);
 }

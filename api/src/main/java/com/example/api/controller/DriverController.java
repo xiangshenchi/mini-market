@@ -3,6 +3,7 @@ package com.example.api.controller;
 import com.example.api.annotation.Log;
 import com.example.api.model.entity.Driver;
 import com.example.api.model.enums.BusincessType;
+import com.example.api.repository.DriverRepository;
 import com.example.api.service.DriverService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,14 @@ public class DriverController {
 
     @Resource
     private DriverService driverService;
+    @Resource
+    private DriverRepository driverRepository;
 
     @Log(moudle = "驾驶员管理", type = BusincessType.INSERT)
     @PostMapping("")
-    public Driver save(@RequestBody @Valid Driver driver) {
+    public Driver save(@RequestBody @Valid Driver driver) throws Exception {
+        boolean exit = driverRepository.existsDriverByIdCardOrLicense(driver.getIdCard(), driver.getLicense());
+        if (exit) throw new Exception("系统已有身份证或驾驶证 请重输入");
         return driverService.save(driver);
     }
 

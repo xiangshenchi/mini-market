@@ -1,6 +1,6 @@
 import service from "../utils/request";
 
-export function FindAllEmployee(){
+export function FindAllEmployee() {
     return service({
         url: '/employee',
         method: 'get'
@@ -15,7 +15,7 @@ export function SaveEmployee(data) {
     })
 }
 
-export function DeleteEmployeeById(id){
+export function DeleteEmployeeById(id) {
     return service({
         url: '/employee?id=' + id,
         method: 'delete'
