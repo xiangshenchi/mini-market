@@ -18,11 +18,12 @@ public interface AdminService {
 
     Admin loginByEmail(LoginDto dto) throws Exception;
 
-    
     //生成token
     String createToken(Admin admin, long exp);
 
     void delete(String id);
 
-    Page<Admin> findAll(int page, int size);
+//    Page<Admin> findAll(int page, int size);
+
+    List<Admin> findAll();
 }

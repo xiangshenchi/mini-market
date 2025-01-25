@@ -11,12 +11,10 @@ import com.example.api.utils.DataTimeUtil;
 import com.example.api.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -67,11 +65,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-    @Override
-    public Page<Admin> findAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return adminRepository.findAll(pageable);
-    }
 
     @Override
     public String createToken(Admin admin, long exp) {
@@ -84,5 +77,16 @@ public class AdminServiceImpl implements AdminService {
     public void delete(String id) {
         adminRepository.deleteById(id);
     }
+
+    @Override
+    public List<Admin> findAll() {
+        return adminRepository.findAll();
+    }
+
+//    @Override
+//    public Page<Admin> findAll(int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return adminRepository.findAll(pageable);
+//    }
 
 }

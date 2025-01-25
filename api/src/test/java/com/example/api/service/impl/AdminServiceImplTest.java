@@ -231,7 +231,7 @@ public class AdminServiceImplTest {
         assertEquals(dto.getEmail(), loggedInAdmin.getEmail());
     }
 
-    @Test 
+    @Test
     public void testFindAll() {
         // 创建第一个 Admin 对象并设置其属性
         Admin admin1 = new Admin();

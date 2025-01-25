@@ -71,13 +71,18 @@ public class AdminController {
         return adminService.save(admin);
     }
 
-    @GetMapping("")
-    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    public Page<Admin> findAll(@RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "10") int size) {
-
-        return adminService.findAll(page, size);
-    }
+//    @GetMapping("")
+//    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
+//    public Page<Admin> findAll(@RequestParam(defaultValue = "0") int page,
+//                               @RequestParam(defaultValue = "10") int size) {
+//
+//        return adminService.findAll(page, size);
+//    }
+@GetMapping("")
+@PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
+public List<Admin> findAll() {
+    return adminService.findAll();
+}
 
     @DeleteMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
