@@ -2,52 +2,90 @@ package com.example.api.util;
 
 import com.example.api.utils.DataTimeUtil;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DataTimeUtilTest {
+    public static final Logger logger=LoggerFactory.getLogger(DataTimeUtilTest.class);
+    private static final String VALID_DATE = "2023-10-01 12:00:00"; // 示例有效日期
+    private static final String INVALID_DATE = "2023-31"; // 示例无效日期
+    private static final String EMPTY_STRING = "";
+    private static final String NULL_STRING = null;
+    private static final String FUTURE_DATE = "2030-01-01"; // 示例未来日期
+    private static final String PAST_DATE = "2020-01-01"; // 示例过去日期
 
+    // 测试 getNowTimeString 方法
     @Test
     public void testGetNowTimeString() {
         String nowTimeString = DataTimeUtil.getNowTimeString();
-        assertNotNull("Current time string should not be null", nowTimeString);
-
-        // 检查返回的时间字符串格式
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            df.parse(nowTimeString); // 尝试解析字符串，确保格式正确
-        } catch (ParseException e) {
-            fail("Current time string format is incorrect: " + nowTimeString);
-        }
+        logger.info("nowTimeString :{}",nowTimeString);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String expectedFormat = simpleDateFormat.format(System.currentTimeMillis());
+        logger.info("expectedFormat :{}",expectedFormat);
+        assertEquals(expectedFormat, nowTimeString);
     }
 
+    // 测试有效日期字符串的解析
     @Test
-    public void testParseTimeStamp() {
-        String validTimeString = "2023-10-01 12:30:00";
-        Long timestamp = DataTimeUtil.parseTimeStamp(validTimeString);
-        assertNotNull("Timestamp should not be null for valid input", timestamp);
-        assertTrue("Timestamp should be greater than 0", timestamp > 0);
+    public void testParseValidDate() throws Exception {
+        Long expectedTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(VALID_DATE).getTime();
 
-        // 测试无效时间字符串
-        String invalidTimeString = "invalid-time-string";
-        Long invalidTimestamp = DataTimeUtil.parseTimeStamp(invalidTimeString);
-        assertNull("Timestamp for invalid input should be null", invalidTimestamp);
+        Long actualTimestamp = DataTimeUtil.parseTimeStamp(VALID_DATE);
+        assertEquals(expectedTimestamp, actualTimestamp);
     }
+
+     // 测试无效日期字符串的解析
     @Test
-    public void testIsAfterNow() {
-        // 测试未来时间
-        String futureTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() + 86400000)); // 明天
-        assertTrue("Future time should be after now", DataTimeUtil.isAfterNow(futureTime));
+    public void testParseInvalidDate() {
+        Long actualTimestamp = DataTimeUtil.parseTimeStamp(INVALID_DATE);
+        assertNull(actualTimestamp); // 解析失败应返回 null
+    }
 
-        // 测试过去时间
-        String pastTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - 86400000)); // 昨天
-        assertFalse("Past time should not be after now", DataTimeUtil.isAfterNow(pastTime));
+    // 测试空字符串作为输入
+    @Test
+    public void testParseEmptyString() {
+        assertThrows(IllegalArgumentException.class, () -> DataTimeUtil.parseTimeStamp(EMPTY_STRING));
+    }
 
-        // 测试无效时间字符串
-        String invalidTimeString = "invalid-date-string";
-        assertFalse("Invalid date string should return false", DataTimeUtil.isAfterNow(invalidTimeString));
+    // 测试 null 值作为输入
+    @Test
+    public void testParseNull() {
+        assertThrows(IllegalArgumentException.class, () -> DataTimeUtil.parseTimeStamp(NULL_STRING));
+    }
+
+    // 测试未来日期
+    @Test
+    public void testIsAfterNowWithFutureDate() {
+        assertTrue(DataTimeUtil.isAfterNow(FUTURE_DATE));
+    }
+
+    // 测试过去日期
+    @Test
+    public void testIsAfterNowWithPastDate() {
+        assertFalse(DataTimeUtil.isAfterNow(PAST_DATE));
+    }
+
+    // 测试无效日期格式
+    @Test
+    public void testIsAfterNowWithInvalidDate() {
+        assertFalse(DataTimeUtil.isAfterNow(INVALID_DATE)); // 解析失败应返回 false
+//        assertTrue(DataTimeUtil.isAfterNow(INVALID_DATE)); // 解析失败应返回 false
+    }
+
+    // 测试空字符串作为输入
+    @Test
+    public void testIsAfterNowWithEmptyString() {
+        assertThrows(IllegalArgumentException.class, () -> DataTimeUtil.isAfterNow(EMPTY_STRING));
+    }
+
+    // 测试 null 值作为输入
+    @Test
+    public void testIsAfterNowWithNull() {
+        assertThrows(IllegalArgumentException.class, () -> DataTimeUtil.isAfterNow(NULL_STRING));
     }
 }

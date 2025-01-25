@@ -30,17 +30,25 @@ spring:
   #   url: jdbc:mysql://mysql.sqlpub.com:3306/mengsheng
   #   username: xieyang
   #   password: YqLpqkVE4TvjAjTX
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/mini_market
-#    username: root
-#    password: 123
   jpa:
-    hibernate:
-      ddl-auto: update
     open-in-view: false
     show-sql: true
+    properties:
+      hibernate:
+#        format_sql: true
+#        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+
 # 设置日志级别
 logging:
   level:
     root: info
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+

@@ -11,10 +11,12 @@ import com.example.api.utils.DataTimeUtil;
 import com.example.api.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -47,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin loginByPassword(LoginDto dto) throws Exception {
-        Admin one ;
+        Admin one;
         one = adminRepository.findAdminByEmailAndPassword(dto.getEmail(), dto.getPassword());
         if (one == null) {
             logger.info("Server:User not found");
@@ -64,9 +66,11 @@ public class AdminServiceImpl implements AdminService {
         return adminRepository.findAdminByEmail(dto.getEmail());
     }
 
+
     @Override
-    public List<Admin> findAll() {
-        return adminRepository.findAll();
+    public Page<Admin> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return adminRepository.findAll(pageable);
     }
 
     @Override

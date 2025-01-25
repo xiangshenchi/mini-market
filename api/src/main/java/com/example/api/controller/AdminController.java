@@ -13,6 +13,7 @@ import com.example.api.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -72,13 +73,15 @@ public class AdminController {
 
     @GetMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    public List<Admin> findAll() {
-        return adminService.findAll();
+    public Page<Admin> findAll(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size) {
+
+        return adminService.findAll(page, size);
     }
 
     @DeleteMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    public void delete(String id) {
+    public void delete(@RequestParam("id") String id) {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("ID不能为空");
         }

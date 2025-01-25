@@ -10,18 +10,19 @@ public final class DataTimeUtil {
     private static final String DATE_ONLY_FORMAT = "yyyy-MM-dd";
 
     public static String getNowTimeString() {
-        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        return df.format(System.currentTimeMillis());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        return simpleDateFormat.format(System.currentTimeMillis());
     }
 
     public static Long parseTimeStamp(String s) {
         if (s == null || s.isEmpty()) {
-            return null; // 或者抛出 IllegalArgumentException
+//            return null; // 或者抛出 IllegalArgumentException
+            throw new IllegalArgumentException();
         }
 
-        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
         try {
-            Date date = df.parse(s);
+            Date date = simpleDateFormat.parse(s);
             return date != null ? date.getTime() : null;
         } catch (ParseException e) {
             // Logging the exception
@@ -32,12 +33,13 @@ public final class DataTimeUtil {
 
     public static boolean isAfterNow(String time) {
         if (time == null || time.isEmpty()) {
-            return false; // 或者抛出 IllegalArgumentException
+//            return false; // 或者抛出 IllegalArgumentException
+            throw new IllegalArgumentException();
         }
 
-        SimpleDateFormat df = new SimpleDateFormat(DATE_ONLY_FORMAT);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_ONLY_FORMAT);
         try {
-            Date date = df.parse(time);
+            Date date = simpleDateFormat.parse(time);
             return date != null && date.getTime() > System.currentTimeMillis();
         } catch (ParseException e) {
             // Logging the exception
