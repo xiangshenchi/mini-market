@@ -15,7 +15,7 @@
     <properties>
         <java.version>11</java.version>
         <jwt.version>0.9.1</jwt.version>
-        <mybatis-plus.version>3.4.2</mybatis-plus.version>
+<!--        <mybatis-plus.version>3.4.2</mybatis-plus.version>-->
         <fastjson.version>1.2.73</fastjson.version>
         <mybatis-enhance-actable.version>1.4.7.RELEASE</mybatis-enhance-actable.version>
     </properties>
@@ -33,7 +33,6 @@
             <artifactId>spring-web</artifactId>
             <version>5.3.10</version> <!-- 使用适合您项目的版本 -->
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -81,7 +80,6 @@
             <version>2.1.7</version>
         </dependency>
 
-
         <!--jwt依赖-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -102,7 +100,6 @@
             <version>1.18.24</version>
             <optional>true</optional>
         </dependency>
-
 
         <!--json工具-->
         <dependency>
