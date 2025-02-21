@@ -87,7 +87,7 @@ export default {
       }
 
       exitsAdmin(value).then((res) => {
-        if (res.data.status) {
+        if (res.status) {
           callback(new Error('账号已存在'));
         } else {
           callback();

@@ -4,7 +4,7 @@ import com.example.api.model.support.ResponseResult;
 import com.example.api.service.LoginLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +31,17 @@ public class GlobalExceptionHandler {
         }
         logger.warn(e.getMessage());
         return new ResponseResult<>(400, e.getMessage());
+    }
+
+    @ExceptionHandler
+    public Object handleDuplicateKeyException(DuplicateKeyException e) {
+        logger.warn(e.getMessage());
+        String message=e.getMessage();
+        assert message != null;
+        int duplicateEntry = message.indexOf("Duplicate entry");
+        String errMessage=message.substring(duplicateEntry);
+        String[] s = errMessage.split(" ");
+        return new ResponseResult<>(400, s[2]+"已存在");
     }
 
 }

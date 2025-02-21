@@ -41,7 +41,6 @@ public class AdminController {
     private LoginLogService loginLogService;
 
     @GetMapping("/exitsAdmin")
-    @DisableBaseResponse
     public Map<String, Object> exitsAdmin(String email) {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("邮箱不能为空");
@@ -54,13 +53,11 @@ public class AdminController {
     }
 
     @GetMapping("/hasInit")
-    @DisableBaseResponse
     public boolean hasInit() {
         return adminRepository.existsAdminByRoles(Role.ROLE_SUPER_ADMIN.getValue());
     }
 
     @PostMapping("/init")
-    @DisableBaseResponse
     public Admin init(@RequestBody @Valid Admin admin) throws Exception {
         admin.setRoles(Role.ROLE_SUPER_ADMIN.getValue());
         if (adminRepository.existsAdminByEmail(admin.getEmail())) {
@@ -71,14 +68,12 @@ public class AdminController {
 
     @GetMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    @DisableBaseResponse
     public List<Admin> findAll() {
         return adminService.findAll();
     }
 
     @DeleteMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    @DisableBaseResponse
     public void delete(@RequestParam("id") String id) {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("ID不能为空");
@@ -88,13 +83,11 @@ public class AdminController {
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_ADMIN')")
-    @DisableBaseResponse
     public Admin save(@RequestBody @Valid Admin admin) throws Exception {
         return adminService.save(admin);
     }
 
     @PostMapping("/login")
-    @DisableBaseResponse
     public Map<String, Object> loginByEmail(String type, @RequestBody @Valid LoginDto dto, HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
         Admin admin = null;
@@ -120,7 +113,6 @@ public class AdminController {
     }
 
     @GetMapping("/sendEmail")
-    @DisableBaseResponse
     public Map<String, Object> sendEmail(String email) throws Exception {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("邮箱不能为空");

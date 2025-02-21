@@ -15,24 +15,24 @@
     <properties>
         <java.version>11</java.version>
         <jwt.version>0.9.1</jwt.version>
-<!--        <mybatis-plus.version>3.4.2</mybatis-plus.version>-->
         <fastjson.version>1.2.73</fastjson.version>
         <mybatis-enhance-actable.version>1.4.7.RELEASE</mybatis-enhance-actable.version>
     </properties>
 
     <dependencies>
-
         <!--SpringBoot依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- AntPathMatcher spring-web -->
+        <!--
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>5.3.10</version> <!-- 使用适合您项目的版本 -->
+            <version>5.3.10</version>
         </dependency>
+        -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,8 +108,8 @@
             <version>${fastjson.version}</version>
         </dependency>
 
-
         <!--jdk9以上缺失的jar包-->
+        <!--
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -130,15 +130,18 @@
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
+        -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -160,12 +163,26 @@
                     </excludes>
                 </configuration>
             </plugin>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <version>2.19.1</version>
+           </plugin>
         </plugins>
     </build>
 
-    <!--更换阿里云maven镜像-->
+
+    <!-- 使用阿里云镜像加速 -->
     <repositories>
-
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
-
 </project>
