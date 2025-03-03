@@ -2,10 +2,12 @@ HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
-!**/src/main/**/resources/
 !**/src/main/**/tmp/
 !**/src/test/**/target/
-!**/src/test/**/resources/
+
+# .gitignore
+src/main/resources/application*.yml
+src/test/resources/application*.yml
 
 
 ### STS ###
